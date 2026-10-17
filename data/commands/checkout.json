@@ -1,0 +1,139 @@
+{
+  "schemaVersion": "1.0",
+  "command": "checkout",
+  "category": "porcelain",
+  "popularity": 5,
+  "summary": "切换分支或恢复工作区文件",
+  "grammar": [
+    {
+      "type": "option",
+      "key": "-f",
+      "aliases": ["--force"],
+      "optional": true,
+      "popularity": 3,
+      "summary": "丢弃本地改动强制切换",
+      "detail": "即使有未提交改动也切换，被覆盖的改动不可恢复。",
+      "example": "git checkout -f main"
+    },
+    {
+      "type": "option",
+      "key": "-m",
+      "aliases": ["--merge"],
+      "optional": true,
+      "popularity": 3,
+      "summary": "切换时三方合并本地改动",
+      "detail": "把未提交改动随切换带到目标分支，冲突时留下标记。",
+      "example": "git checkout -m topic"
+    },
+    {
+      "type": "option",
+      "key": "-p",
+      "aliases": ["--patch"],
+      "optional": true,
+      "popularity": 3,
+      "summary": "逐块挑选恢复的改动",
+      "detail": "交互式选择要恢复的差异块。",
+      "example": "git checkout -p -- src/"
+    },
+    {
+      "type": "option",
+      "key": "-d",
+      "aliases": ["--detach"],
+      "optional": true,
+      "popularity": 3,
+      "summary": "分离 HEAD 到指定提交",
+      "detail": "进入 detached HEAD 状态，不在任何分支上。",
+      "example": "git checkout -d v1.2"
+    },
+    {
+      "type": "option",
+      "key": "-t",
+      "aliases": ["--track"],
+      "optional": true,
+      "popularity": 2,
+      "summary": "创建分支时自动跟踪",
+      "detail": "常与 -b 连用，为远程分支建立同名跟踪分支。",
+      "example": "git checkout -t origin/topic"
+    },
+    {
+      "type": "option",
+      "key": "--ours",
+      "optional": true,
+      "popularity": 2,
+      "summary": "冲突文件取本方版本",
+      "detail": "配合 -m 恢复未合并文件时保留本方内容。",
+      "example": "git checkout -m --ours -- src/"
+    },
+    {
+      "type": "option",
+      "key": "--theirs",
+      "optional": true,
+      "popularity": 2,
+      "summary": "冲突文件取对方版本",
+      "detail": "配合 -m 恢复未合并文件时采用对方内容。",
+      "example": "git checkout -m --theirs -- src/"
+    },
+    {
+      "type": "option",
+      "key": "--orphan",
+      "param": { "kind": "text", "name": "new-branch" },
+      "optional": true,
+      "popularity": 1,
+      "summary": "创建无任何提交的分支",
+      "detail": "新分支没有父提交，历史从零开始。",
+      "example": "git checkout --orphan gh-pages"
+    },
+    {
+      "type": "group",
+      "mode": "mutex",
+      "optional": true,
+      "members": [
+        {
+          "type": "option",
+          "key": "-b",
+          "param": { "kind": "branch", "name": "branch" },
+          "optional": true,
+          "popularity": 5,
+          "summary": "创建并切换到新分支",
+          "detail": "以当前 HEAD 为起点创建分支并切换过去。",
+          "example": "git checkout -b feature-x"
+        },
+        {
+          "type": "option",
+          "key": "-B",
+          "param": { "kind": "branch", "name": "branch" },
+          "optional": true,
+          "popularity": 3,
+          "summary": "创建或重置分支并切换",
+          "detail": "分支已存在时重置到当前 HEAD 再切换。",
+          "example": "git checkout -B feature-x"
+        }
+      ]
+    },
+    {
+      "type": "positional",
+      "param": { "kind": "commit", "name": "branch" },
+      "optional": true,
+      "popularity": 5,
+      "summary": "要切换到的分支或提交",
+      "detail": "也可给标签、远程分支或提交号。",
+      "example": "git checkout main"
+    },
+    {
+      "type": "positional",
+      "param": { "kind": "pathspec", "name": "pathspec" },
+      "optional": true,
+      "repeatable": true,
+      "popularity": 3,
+      "summary": "要恢复的文件路径",
+      "detail": "给出路径即进入恢复模式，须配合 <branch> 或 -- 使用。",
+      "example": "git checkout main -- src/"
+    }
+  ],
+  "examples": [
+    { "cmd": "git checkout main", "note": "切换到 main 分支" },
+    { "cmd": "git checkout -b feature-x", "note": "创建并切换到新分支" },
+    { "cmd": "git checkout -- src/app.mjs", "note": "丢弃 src/app.mjs 的未暂存改动" }
+  ],
+  "notes": ["切换可能拒绝或携带未提交改动", "路径恢复模式会丢弃未暂存改动"]
+}

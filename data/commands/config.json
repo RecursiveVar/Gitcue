@@ -1,0 +1,156 @@
+{
+  "schemaVersion": "1.0",
+  "command": "config",
+  "category": "porcelain",
+  "popularity": 3,
+  "summary": "读取和设置 Git 配置项",
+  "grammar": [
+    {
+      "type": "group",
+      "mode": "mutex",
+      "optional": true,
+      "members": [
+        {
+          "type": "option",
+          "key": "--global",
+          "optional": true,
+          "popularity": 5,
+          "summary": "读写用户级配置文件",
+          "detail": "作用于当前用户的所有仓库（~/.gitconfig）。",
+          "example": "git config --global user.name 张三"
+        },
+        {
+          "type": "option",
+          "key": "--local",
+          "optional": true,
+          "popularity": 4,
+          "summary": "读写仓库级配置文件",
+          "detail": "作用于当前仓库（.git/config），为默认。"
+        },
+        {
+          "type": "option",
+          "key": "--system",
+          "optional": true,
+          "popularity": 2,
+          "summary": "读写系统级配置文件",
+          "detail": "作用于本机全部用户，通常需要管理员权限。"
+        }
+      ]
+    },
+    {
+      "type": "option",
+      "key": "--list",
+      "aliases": ["-l"],
+      "optional": true,
+      "popularity": 5,
+      "summary": "列出当前生效的全部配置",
+      "detail": "各级配置合并后的最终视图。",
+      "example": "git config --list"
+    },
+    {
+      "type": "option",
+      "key": "--get",
+      "optional": true,
+      "popularity": 4,
+      "summary": "读取配置项的值",
+      "detail": "输出该项的值；多项时只取最后一个。",
+      "example": "git config --get user.name"
+    },
+    {
+      "type": "option",
+      "key": "--unset",
+      "optional": true,
+      "popularity": 3,
+      "summary": "删除一个配置项",
+      "detail": "移除匹配的一个值，多项时会报错并提示用 --unset-all。",
+      "example": "git config --unset user.name"
+    },
+    {
+      "type": "option",
+      "key": "--add",
+      "optional": true,
+      "popularity": 2,
+      "summary": "向多值项追加一个值",
+      "detail": "不覆盖既有值，追加为新的一行。",
+      "example": "git config --add alias.st status"
+    },
+    {
+      "type": "option",
+      "key": "-e",
+      "aliases": ["--edit"],
+      "optional": true,
+      "popularity": 2,
+      "summary": "在编辑器中打开配置文件",
+      "detail": "直接编辑当前作用域的配置文件。",
+      "example": "git config --global -e"
+    },
+    {
+      "type": "option",
+      "key": "--type",
+      "param": { "kind": "enum", "name": "type", "enum": ["bool", "int", "path", "expiry-date"] },
+      "optional": true,
+      "popularity": 2,
+      "summary": "按类型规范化值",
+      "detail": "读取时把值转换为该类型，如 --type bool 把 yes 变 true。"
+    },
+    {
+      "type": "option",
+      "key": "--show-origin",
+      "optional": true,
+      "popularity": 2,
+      "summary": "显示配置来源文件",
+      "detail": "配合 --list 输出每项来自哪个文件。"
+    },
+    {
+      "type": "option",
+      "key": "--show-scope",
+      "optional": true,
+      "popularity": 1,
+      "summary": "显示配置作用域",
+      "detail": "标注每项属于 system/global/local。",
+      "example": "git config --list --show-scope"
+    },
+    {
+      "type": "option",
+      "key": "--get-regexp",
+      "optional": true,
+      "popularity": 1,
+      "summary": "按正则列出匹配配置",
+      "detail": "把 <name> 当作正则匹配并逐项列出。",
+      "example": "git config --get-regexp 'alias.*'"
+    },
+    {
+      "type": "option",
+      "key": "--default",
+      "param": { "kind": "text", "name": "value" },
+      "optional": true,
+      "popularity": 1,
+      "summary": "get 未命中时的默认值",
+      "detail": "配合 --get 使用，缺失时输出该默认值。",
+      "example": "git config --default main --get init.defaultBranch"
+    },
+    {
+      "type": "positional",
+      "param": { "kind": "text", "name": "name" },
+      "popularity": 5,
+      "summary": "配置项名称（如 user.name）",
+      "detail": "形如“节.键”，支持正则或值模式的高级形态。",
+      "example": "git config user.name"
+    },
+    {
+      "type": "positional",
+      "param": { "kind": "text", "name": "value" },
+      "optional": true,
+      "popularity": 4,
+      "summary": "要写入的新值",
+      "detail": "给出 value 即为写入，省略则为读取。",
+      "example": "git config user.name 张三"
+    }
+  ],
+  "examples": [
+    { "cmd": "git config user.name", "note": "读取配置项的值" },
+    { "cmd": "git config --global core.quotepath false", "note": "写入用户级配置" },
+    { "cmd": "git config --list --show-origin", "note": "列出全部配置及来源" }
+  ],
+  "notes": ["--local 为默认作用域", "--global/--local/--system 只能选其一"]
+}

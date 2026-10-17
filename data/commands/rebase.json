@@ -1,0 +1,173 @@
+{
+  "schemaVersion": "1.0",
+  "command": "rebase",
+  "category": "porcelain",
+  "popularity": 4,
+  "summary": "在另一个基线之上重放提交",
+  "grammar": [
+    {
+      "type": "option",
+      "key": "-i",
+      "aliases": ["--interactive"],
+      "optional": true,
+      "popularity": 5,
+      "summary": "交互式变基：编辑/压缩/重排提交",
+      "detail": "启动编辑器列出待重放的提交，可修改顺序、合并或丢弃。编辑器可用 GIT_SEQUENCE_EDITOR 指定。",
+      "example": "git rebase -i HEAD~5"
+    },
+    {
+      "type": "option",
+      "key": "--onto",
+      "param": { "kind": "commit", "name": "newbase" },
+      "optional": true,
+      "popularity": 3,
+      "summary": "把提交重放到指定新基点上",
+      "detail": "不切换到 <upstream>，而是把提交重放到 <newbase> 指定的提交之上。常用于把一段提交搬到别的分支。",
+      "example": "git rebase --onto main topicA topicB"
+    },
+    {
+      "type": "option",
+      "key": "--keep-base",
+      "optional": true,
+      "since": "2.23",
+      "popularity": 2,
+      "summary": "以当前分支与上游共同祖先为基点",
+      "detail": "以当前分支与 <upstream> 的共同祖先为基点变基，不移动到 <upstream> 本身。",
+      "example": "git rebase --keep-base main"
+    },
+    {
+      "type": "option",
+      "key": "--fork-point",
+      "optional": true,
+      "popularity": 2,
+      "summary": "用 reflog 找出的分叉点作上游",
+      "detail": "利用 reflog 寻找当前分支与 <upstream> 的分叉点。--no-fork-point 为其反义，二者互斥。",
+      "example": "git rebase --fork-point main feature"
+    },
+    {
+      "type": "option",
+      "key": "-m",
+      "aliases": ["--merge"],
+      "optional": true,
+      "popularity": 2,
+      "summary": "用合并方式重放提交",
+      "detail": "对每个提交使用合并策略重放，保留空提交。适合重放相互依赖的提交序列。",
+      "example": "git rebase -m main"
+    },
+    {
+      "type": "option",
+      "key": "-s",
+      "aliases": ["--strategy"],
+      "param": { "kind": "enum", "name": "strategy", "enum": ["ort", "recursive", "octopus", "ours", "subtree"] },
+      "optional": true,
+      "popularity": 2,
+      "summary": "指定合并策略",
+      "detail": "ort 为 git 2.30 起的默认策略。各策略适用场景见 git-merge 文档。",
+      "example": "git rebase -s ours main"
+    },
+    {
+      "type": "option",
+      "key": "--empty",
+      "param": { "kind": "enum", "name": "how", "enum": ["drop", "keep", "ask"] },
+      "optional": true,
+      "since": "2.26",
+      "popularity": 1,
+      "summary": "指定如何处理变空的提交",
+      "detail": "drop 丢弃变空的提交；keep 保留；ask 逐个询问（默认）。",
+      "example": "git rebase --empty=drop main"
+    },
+    {
+      "type": "option",
+      "key": "--autosquash",
+      "optional": true,
+      "popularity": 2,
+      "summary": "自动将 fixup!/squash! 提交归位",
+      "detail": "与 -i 配合，把 fixup!/squash! 前缀的提交自动移到目标提交之后。",
+      "example": "git rebase -i --autosquash main"
+    },
+    {
+      "type": "option",
+      "key": "--stat",
+      "optional": true,
+      "mutex": "stat-mode",
+      "popularity": 2,
+      "summary": "显示变基后的差异统计",
+      "detail": "变基完成后输出 diffstat，便于确认改动范围。",
+      "example": "git rebase --stat main"
+    },
+    {
+      "type": "option",
+      "key": "-n",
+      "aliases": ["--no-stat"],
+      "optional": true,
+      "mutex": "stat-mode",
+      "popularity": 2,
+      "summary": "不显示差异统计",
+      "detail": "抑制变基完成后的 diffstat 输出。",
+      "example": "git rebase -n main"
+    },
+    {
+      "type": "group",
+      "mode": "mutex",
+      "optional": true,
+      "members": [
+        {
+          "type": "option",
+          "key": "--continue",
+          "popularity": 5,
+          "summary": "冲突解决后继续变基",
+          "detail": "解决冲突并 git add 之后，继续重放剩余提交。",
+          "example": "git rebase --continue"
+        },
+        {
+          "type": "option",
+          "key": "--abort",
+          "popularity": 4,
+          "summary": "中止变基并回到原分支",
+          "detail": "放弃本次变基，分支与工作区回到变基前的状态。",
+          "example": "git rebase --abort"
+        },
+        {
+          "type": "option",
+          "key": "--skip",
+          "popularity": 2,
+          "summary": "跳过当前提交继续变基",
+          "detail": "丢弃当前冲突的提交，继续重放后续提交。",
+          "example": "git rebase --skip"
+        },
+        {
+          "type": "option",
+          "key": "--edit-todo",
+          "popularity": 1,
+          "summary": "编辑剩余的待办提交列表",
+          "detail": "变基中断时修改剩余待办提交列表。",
+          "example": "git rebase --edit-todo"
+        }
+      ]
+    },
+    {
+      "type": "positional",
+      "param": { "kind": "commit", "name": "upstream" },
+      "optional": true,
+      "popularity": 3,
+      "summary": "上游基点（默认取分支配置）",
+      "detail": "指定变基的基准提交。省略时使用 branch.<name>.remote/merge 配置。",
+      "example": "git rebase origin/main"
+    },
+    {
+      "type": "positional",
+      "param": { "kind": "branch", "name": "branch" },
+      "optional": true,
+      "popularity": 3,
+      "summary": "要变基的分支（默认当前分支）",
+      "detail": "检出该分支并将其变基到 <upstream> 之上；省略时变基当前分支。",
+      "example": "git rebase main feature"
+    }
+  ],
+  "examples": [
+    { "cmd": "git rebase -i HEAD~3", "note": "交互式整理最近 3 个提交" },
+    { "cmd": "git rebase origin/main", "note": "把当前分支变基到远端 main 最新" },
+    { "cmd": "git rebase --onto main topicA topicB", "note": "把 topicB 上自 topicA 起的提交搬到 main" }
+  ],
+  "notes": ["变基会改写提交历史，已推送的分支慎用", "冲突后先 git add 再 --continue"]
+}

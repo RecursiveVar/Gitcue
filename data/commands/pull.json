@@ -1,0 +1,154 @@
+{
+  "schemaVersion": "1.0",
+  "command": "pull",
+  "category": "porcelain",
+  "popularity": 5,
+  "summary": "抓取远端并整合到当前分支",
+  "grammar": [
+    {
+      "type": "option",
+      "key": "-r",
+      "aliases": ["--rebase"],
+      "optional": true,
+      "mutex": "rebase-mode",
+      "popularity": 5,
+      "summary": "抓取后用变基整合改动",
+      "detail": "等价于 fetch 后接 rebase，提交历史保持线性。可用 pull.rebase 配置默认开启。",
+      "example": "git pull --rebase"
+    },
+    {
+      "type": "option",
+      "key": "--no-rebase",
+      "optional": true,
+      "mutex": "rebase-mode",
+      "popularity": 4,
+      "summary": "用普通合并整合（覆盖配置）",
+      "detail": "显式覆盖 pull.rebase 等配置，本次拉取按合并处理。",
+      "example": "git pull --no-rebase"
+    },
+    {
+      "type": "option",
+      "key": "--ff-only",
+      "optional": true,
+      "popularity": 3,
+      "summary": "仅允许快进，否则中止",
+      "detail": "若本地与远端已分叉则直接失败，不做合并也不做变基。",
+      "example": "git pull --ff-only"
+    },
+    {
+      "type": "option",
+      "key": "--autostash",
+      "optional": true,
+      "popularity": 2,
+      "summary": "整合前自动贮藏本地改动",
+      "detail": "把未提交改动自动 stash，整合完成后再 pop 回来，避免中途报错。",
+      "example": "git pull --autostash --rebase"
+    },
+    {
+      "type": "option",
+      "key": "-s",
+      "aliases": ["--strategy"],
+      "param": { "kind": "enum", "name": "strategy", "enum": ["ort", "recursive", "octopus", "ours", "subtree"] },
+      "optional": true,
+      "popularity": 2,
+      "summary": "指定合并策略",
+      "detail": "仅在合并模式（非 -r）下生效；ort 为 git 2.30 起默认。",
+      "example": "git pull -s ours"
+    },
+    {
+      "type": "option",
+      "key": "-X",
+      "aliases": ["--strategy-option"],
+      "param": { "kind": "text", "name": "option=value" },
+      "optional": true,
+      "popularity": 1,
+      "summary": "传给合并策略的参数",
+      "detail": "如 -X theirs 冲突处取对方版本；与 merge 的同名选项一致。",
+      "example": "git pull -X theirs"
+    },
+    {
+      "type": "option",
+      "key": "-p",
+      "aliases": ["--prune"],
+      "optional": true,
+      "popularity": 2,
+      "summary": "清理远端已删除的跟踪分支",
+      "detail": "抓取阶段顺带删除远端已不存在的远程跟踪引用。",
+      "example": "git pull -p"
+    },
+    {
+      "type": "option",
+      "key": "-f",
+      "aliases": ["--force"],
+      "optional": true,
+      "popularity": 1,
+      "summary": "强制覆盖本地分支",
+      "detail": "抓取阶段允许强制更新本地引用，慎用。",
+      "example": "git pull -f"
+    },
+    {
+      "type": "option",
+      "key": "-t",
+      "aliases": ["--tags"],
+      "optional": true,
+      "popularity": 1,
+      "summary": "同时拉取远端标签",
+      "detail": "抓取阶段一并下载远端全部标签。",
+      "example": "git pull -t"
+    },
+    {
+      "type": "option",
+      "key": "--dry-run",
+      "optional": true,
+      "popularity": 1,
+      "summary": "只演示将要拉取的内容",
+      "detail": "不真正抓取与整合，仅展示将发生的动作。",
+      "example": "git pull --dry-run"
+    },
+    {
+      "type": "option",
+      "key": "-v",
+      "aliases": ["--verbose"],
+      "optional": true,
+      "popularity": 1,
+      "summary": "输出详细信息",
+      "detail": "显示拉取与整合过程的详细进度。",
+      "example": "git pull -v"
+    },
+    {
+      "type": "option",
+      "key": "-q",
+      "aliases": ["--quiet"],
+      "optional": true,
+      "popularity": 1,
+      "summary": "减少输出",
+      "detail": "抑制常规进度信息，只保留错误。",
+      "example": "git pull -q"
+    },
+    {
+      "type": "positional",
+      "param": { "kind": "remote", "name": "repository" },
+      "optional": true,
+      "popularity": 3,
+      "summary": "远程仓库名（默认取上游）",
+      "detail": "省略时使用当前分支配置的上游远程。",
+      "example": "git pull origin"
+    },
+    {
+      "type": "positional",
+      "param": { "kind": "branch", "name": "refspec" },
+      "optional": true,
+      "repeatable": true,
+      "popularity": 3,
+      "summary": "要拉取的引用规格",
+      "detail": "通常给分支名即可；v0.1 以分支名简化建模。",
+      "example": "git pull origin main"
+    }
+  ],
+  "examples": [
+    { "cmd": "git pull", "note": "拉取上游并按配置整合" },
+    { "cmd": "git pull --rebase origin main", "note": "拉取 origin/main 并以变基整合" },
+    { "cmd": "git pull --autostash --rebase", "note": "有未提交改动时安全地变基拉取" }
+  ],
+  "notes": ["首次跟踪需 push -u 建立上游", "冲突处理与 merge 一致"]
+}

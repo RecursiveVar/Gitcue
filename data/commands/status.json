@@ -1,0 +1,99 @@
+{
+  "schemaVersion": "1.0",
+  "command": "status",
+  "category": "porcelain",
+  "popularity": 5,
+  "summary": "显示工作区与暂存区的状态",
+  "grammar": [
+    {
+      "type": "option",
+      "key": "-s",
+      "aliases": ["--short"],
+      "popularity": 4,
+      "summary": "简洁格式输出状态",
+      "example": "git status -sb"
+    },
+    {
+      "type": "option",
+      "key": "-b",
+      "aliases": ["--branch"],
+      "popularity": 3,
+      "summary": "显示分支与跟踪信息"
+    },
+    {
+      "type": "option",
+      "key": "--long",
+      "popularity": 2,
+      "summary": "长格式输出（默认）"
+    },
+    {
+      "type": "option",
+      "key": "--porcelain",
+      "popularity": 3,
+      "summary": "机器可读的稳定格式"
+    },
+    {
+      "type": "option",
+      "key": "-z",
+      "aliases": ["--null"],
+      "popularity": 2,
+      "summary": "条目以 NUL 分隔"
+    },
+    {
+      "type": "option",
+      "key": "-u",
+      "aliases": ["--untracked-files"],
+      "param": {
+        "kind": "enum",
+        "name": "mode",
+        "enum": ["no", "normal", "all"]
+      },
+      "popularity": 3,
+      "summary": "控制未跟踪文件的显示方式"
+    },
+    {
+      "type": "option",
+      "key": "--ignored",
+      "param": {
+        "kind": "enum",
+        "name": "mode",
+        "enum": ["traditional", "matching", "no"]
+      },
+      "popularity": 2,
+      "summary": "同时显示被忽略的文件"
+    },
+    {
+      "type": "option",
+      "key": "-v",
+      "aliases": ["--verbose"],
+      "popularity": 2,
+      "summary": "附显示已暂存的差异"
+    },
+    {
+      "type": "option",
+      "key": "--show-stash",
+      "popularity": 1,
+      "summary": "显示暂存条目数量"
+    },
+    {
+      "type": "option",
+      "key": "--ahead-behind",
+      "popularity": 1,
+      "summary": "计算完整的领先落后计数"
+    },
+    {
+      "type": "positional",
+      "param": { "kind": "pathspec", "name": "pathspec" },
+      "optional": true,
+      "repeatable": true,
+      "popularity": 3,
+      "summary": "限定查询的路径"
+    }
+  ],
+  "examples": [
+    { "cmd": "git status", "note": "查看当前工作区状态" },
+    { "cmd": "git status -sb", "note": "简洁格式并带分支与跟踪信息" },
+    { "cmd": "git status --porcelain", "note": "脚本友好的稳定格式输出" }
+  ],
+  "notes": ["默认输出受配置影响，porcelain 格式最稳定", "未跟踪文件默认全部显示"]
+}

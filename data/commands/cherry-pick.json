@@ -1,0 +1,126 @@
+{
+  "schemaVersion": "1.0",
+  "command": "cherry-pick",
+  "category": "porcelain",
+  "popularity": 3,
+  "summary": "把既有提交重放到当前分支",
+  "grammar": [
+    {
+      "type": "option",
+      "key": "-n",
+      "aliases": ["--no-commit"],
+      "optional": true,
+      "popularity": 3,
+      "summary": "只应用改动，不自动提交",
+      "detail": "改动进入暂存区，由你稍后自行提交。",
+      "example": "git cherry-pick -n <commit>"
+    },
+    {
+      "type": "option",
+      "key": "-x",
+      "optional": true,
+      "popularity": 3,
+      "summary": "说明末尾附来源提交号",
+      "detail": "把来源提交号追加到提交说明，便于追溯。",
+      "example": "git cherry-pick -x <commit>"
+    },
+    {
+      "type": "option",
+      "key": "-e",
+      "aliases": ["--edit"],
+      "optional": true,
+      "popularity": 2,
+      "summary": "提交前编辑提交说明",
+      "detail": "重放前打开编辑器修改说明。",
+      "example": "git cherry-pick -e <commit>"
+    },
+    {
+      "type": "option",
+      "key": "-s",
+      "aliases": ["--signoff"],
+      "optional": true,
+      "popularity": 2,
+      "summary": "追加 Signed-off-by 签名",
+      "detail": "在提交说明末尾追加签名行。",
+      "example": "git cherry-pick -s <commit>"
+    },
+    {
+      "type": "option",
+      "key": "-m",
+      "aliases": ["--mainline"],
+      "param": { "kind": "text", "name": "parent-number" },
+      "optional": true,
+      "popularity": 2,
+      "summary": "指定合并提交的主线父",
+      "detail": "重放合并提交时需指明主线父提交的序号 1 或 2。",
+      "example": "git cherry-pick -m 1 <merge>"
+    },
+    {
+      "type": "option",
+      "key": "--ff",
+      "optional": true,
+      "popularity": 2,
+      "summary": "必要时允许快进",
+      "detail": "当前分支可快进到目标时直接移动引用。",
+      "example": "git cherry-pick --ff <commit>"
+    },
+    {
+      "type": "group",
+      "mode": "mutex",
+      "optional": true,
+      "members": [
+        {
+          "type": "option",
+          "key": "--continue",
+          "optional": true,
+          "popularity": 5,
+          "summary": "冲突解决后继续序列",
+          "detail": "解决冲突并 git add 之后继续重放。",
+          "example": "git cherry-pick --continue"
+        },
+        {
+          "type": "option",
+          "key": "--skip",
+          "optional": true,
+          "popularity": 2,
+          "summary": "跳过当前提交继续",
+          "detail": "放弃当前正在重放的提交。",
+          "example": "git cherry-pick --skip"
+        },
+        {
+          "type": "option",
+          "key": "--abort",
+          "optional": true,
+          "popularity": 4,
+          "summary": "中止并回到操作前状态",
+          "detail": "取消整个序列，分支与工作区复原。",
+          "example": "git cherry-pick --abort"
+        },
+        {
+          "type": "option",
+          "key": "--quit",
+          "optional": true,
+          "popularity": 1,
+          "summary": "退出但保留已应用改动",
+          "detail": "结束序列状态，不回退已完成的改动。",
+          "example": "git cherry-pick --quit"
+        }
+      ]
+    },
+    {
+      "type": "positional",
+      "param": { "kind": "commit", "name": "commit" },
+      "repeatable": true,
+      "popularity": 5,
+      "summary": "要重放的提交或范围",
+      "detail": "支持 commitA..commitB 区间写法。",
+      "example": "git cherry-pick main~3..main~1"
+    }
+  ],
+  "examples": [
+    { "cmd": "git cherry-pick <commit>", "note": "把指定提交重放到当前分支" },
+    { "cmd": "git cherry-pick main~3..main~1", "note": "重放一段连续提交" },
+    { "cmd": "git cherry-pick --continue", "note": "冲突解决并 add 后继续" }
+  ],
+  "notes": ["冲突后先 git add 再 --continue", "重放会生成新的提交号"]
+}

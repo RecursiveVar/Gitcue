@@ -1,0 +1,51 @@
+{
+  "name": "gitcue",
+  "version": "0.1.0",
+  "description": "GitCue —— Git 命令行智能提示工具：输入即提示、候选带说明、回车即执行",
+  "type": "module",
+  "license": "MIT",
+  "author": "RecursiveVar",
+  "keywords": [
+    "git",
+    "cli",
+    "terminal",
+    "tui",
+    "autocomplete",
+    "hints",
+    "command-line",
+    "ink",
+    "react"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RecursiveVar/GitCue.git"
+  },
+  "bugs": {
+    "url": "https://github.com/RecursiveVar/GitCue/issues"
+  },
+  "homepage": "https://github.com/RecursiveVar/GitCue#readme",
+  "engines": {
+    "node": ">=22"
+  },
+  "files": [
+    "bin",
+    "src",
+    "data"
+  ],
+  "dependencies": {
+    "ink": "8.0.0",
+    "react": "19.3.0"
+  },
+  "devDependencies": {
+    "ink-testing-library": "4.0.0"
+  },
+  "bin": {
+    "gitcue": "bin/gitcue.mjs"
+  },
+  "scripts": {
+    "test": "node --test \"test/*.test.mjs\"",
+    "acceptance": "node scripts/acceptance.mjs",
+    "start": "node bin/gitcue.mjs",
+    "prepublishOnly": "npm test"
+  }
+}

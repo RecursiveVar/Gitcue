@@ -1,0 +1,139 @@
+{
+  "schemaVersion": "1.0",
+  "command": "tag",
+  "category": "porcelain",
+  "popularity": 3,
+  "summary": "创建、列出、删除或校验标签",
+  "grammar": [
+    {
+      "type": "option",
+      "key": "-l",
+      "aliases": ["--list"],
+      "popularity": 3,
+      "summary": "列出标签",
+      "example": "git tag -l \"v1.*\""
+    },
+    {
+      "type": "option",
+      "key": "-n",
+      "popularity": 2,
+      "summary": "列出时显示标签注释内容"
+    },
+    {
+      "type": "option",
+      "key": "-d",
+      "aliases": ["--delete"],
+      "popularity": 3,
+      "summary": "删除指定标签"
+    },
+    {
+      "type": "option",
+      "key": "-v",
+      "aliases": ["--verify"],
+      "popularity": 2,
+      "summary": "校验带签名的标签"
+    },
+    {
+      "type": "option",
+      "key": "-a",
+      "aliases": ["--annotate"],
+      "mutex": "tag-annot",
+      "popularity": 4,
+      "summary": "创建附注标签",
+      "detail": "附注标签存储完整标签对象，可含说明与签名。",
+      "example": "git tag -a v1.0.0 -m \"发布 1.0\""
+    },
+    {
+      "type": "option",
+      "key": "-s",
+      "aliases": ["--sign"],
+      "mutex": "tag-annot",
+      "popularity": 2,
+      "summary": "创建带 GPG 签名的附注标签"
+    },
+    {
+      "type": "option",
+      "key": "-u",
+      "aliases": ["--local-user"],
+      "mutex": "tag-annot",
+      "param": { "kind": "text", "name": "key-id" },
+      "popularity": 1,
+      "summary": "用指定密钥签名"
+    },
+    {
+      "type": "option",
+      "key": "-m",
+      "aliases": ["--message"],
+      "mutex": "tag-msg",
+      "repeatable": true,
+      "param": { "kind": "text", "name": "msg" },
+      "popularity": 4,
+      "summary": "指定标签说明（可多次）"
+    },
+    {
+      "type": "option",
+      "key": "-F",
+      "aliases": ["--file"],
+      "mutex": "tag-msg",
+      "param": { "kind": "text", "name": "file" },
+      "popularity": 2,
+      "summary": "从文件读取标签说明"
+    },
+    {
+      "type": "option",
+      "key": "-f",
+      "aliases": ["--force"],
+      "popularity": 2,
+      "summary": "覆盖已存在的标签"
+    },
+    {
+      "type": "option",
+      "key": "--contains",
+      "param": { "kind": "commit", "name": "commit" },
+      "popularity": 2,
+      "summary": "只列出包含该提交的标签"
+    },
+    {
+      "type": "option",
+      "key": "--points-at",
+      "param": { "kind": "commit", "name": "object" },
+      "popularity": 1,
+      "summary": "只列出指向该对象的标签"
+    },
+    {
+      "type": "option",
+      "key": "--sort",
+      "param": { "kind": "text", "name": "key" },
+      "popularity": 1,
+      "summary": "指定排序字段"
+    },
+    {
+      "type": "option",
+      "key": "--format",
+      "param": { "kind": "text", "name": "format" },
+      "popularity": 1,
+      "summary": "指定输出格式"
+    },
+    {
+      "type": "positional",
+      "param": { "kind": "tag", "name": "tagname" },
+      "optional": true,
+      "popularity": 5,
+      "summary": "标签名称",
+      "example": "git tag v1.0.0"
+    },
+    {
+      "type": "positional",
+      "param": { "kind": "commit", "name": "commit" },
+      "optional": true,
+      "popularity": 3,
+      "summary": "打标签的提交（默认 HEAD）"
+    }
+  ],
+  "examples": [
+    { "cmd": "git tag v1.0.0", "note": "给当前提交打轻量标签" },
+    { "cmd": "git tag -a v1.0.0 -m \"发布 1.0\"", "note": "创建带说明的附注标签" },
+    { "cmd": "git tag -l \"v1.*\"", "note": "列出 v1 系列标签" }
+  ],
+  "notes": ["附注标签存完整对象，正式发布推荐", "轻量标签只是指向提交的引用"]
+}

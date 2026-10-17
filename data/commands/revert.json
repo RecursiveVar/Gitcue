@@ -1,0 +1,98 @@
+{
+  "schemaVersion": "1.0",
+  "command": "revert",
+  "category": "porcelain",
+  "popularity": 3,
+  "summary": "用反向提交撤销指定提交",
+  "grammar": [
+    {
+      "type": "option",
+      "key": "--edit",
+      "aliases": ["-e"],
+      "popularity": 3,
+      "summary": "提交前编辑提交说明",
+      "detail": "默认会打开编辑器。--no-edit 为其反义，二者互斥。"
+    },
+    {
+      "type": "option",
+      "key": "-n",
+      "aliases": ["--no-commit"],
+      "popularity": 3,
+      "summary": "应用反向改动但不自动提交",
+      "detail": "改动只进入暂存区，可继续编辑或合并成一次提交。",
+      "example": "git revert --no-commit HEAD"
+    },
+    {
+      "type": "option",
+      "key": "-m",
+      "aliases": ["--mainline"],
+      "param": { "kind": "text", "name": "parent-number" },
+      "popularity": 2,
+      "summary": "指定撤销合并提交的主线父编号"
+    },
+    {
+      "type": "option",
+      "key": "-s",
+      "aliases": ["--signoff"],
+      "popularity": 2,
+      "summary": "追加 Signed-off-by 署名"
+    },
+    {
+      "type": "option",
+      "key": "--strategy",
+      "param": {
+        "kind": "enum",
+        "name": "strategy",
+        "enum": ["ort", "recursive", "octopus", "ours", "subtree"]
+      },
+      "popularity": 1,
+      "summary": "指定合并策略"
+    },
+    {
+      "type": "group",
+      "mode": "mutex",
+      "members": [
+        {
+          "type": "option",
+          "key": "--continue",
+          "popularity": 4,
+          "summary": "冲突解决后继续撤销序列",
+          "example": "git revert --continue"
+        },
+        {
+          "type": "option",
+          "key": "--skip",
+          "popularity": 2,
+          "summary": "跳过当前提交继续序列"
+        },
+        {
+          "type": "option",
+          "key": "--abort",
+          "popularity": 3,
+          "summary": "中止序列并恢复原状"
+        },
+        {
+          "type": "option",
+          "key": "--quit",
+          "popularity": 1,
+          "summary": "退出序列但保留已完成改动"
+        }
+      ]
+    },
+    {
+      "type": "positional",
+      "param": { "kind": "commit", "name": "commit" },
+      "repeatable": true,
+      "popularity": 5,
+      "summary": "要撤销的提交",
+      "detail": "可一次给出多个提交或提交区间。",
+      "example": "git revert HEAD"
+    }
+  ],
+  "examples": [
+    { "cmd": "git revert HEAD", "note": "生成一个反向提交撤销最近一次提交" },
+    { "cmd": "git revert --no-commit HEAD~2..HEAD", "note": "撤销多个提交但先不生成提交" },
+    { "cmd": "git revert --continue", "note": "冲突解决并暂存后继续撤销" }
+  ],
+  "notes": ["revert 生成新提交，不改写历史", "撤销合并提交需 -m 指定主线父编号"]
+}

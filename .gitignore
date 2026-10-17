@@ -1,0 +1,16 @@
+# 依赖
+node_modules/
+
+# 测试沙箱（验收/测试时动态生成的 git 仓库与临时文件）
+.sandbox/
+
+# 本地工具与编辑器配置
+.zcode/
+.gloss/
+
+# 项目文档（暂不入库）
+docs/
+
+# npm 打包产物与日志
+*.tgz
+npm-debug.log*

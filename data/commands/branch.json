@@ -1,0 +1,233 @@
+{
+  "schemaVersion": "1.0",
+  "command": "branch",
+  "category": "porcelain",
+  "popularity": 4,
+  "summary": "列出、创建或删除分支",
+  "grammar": [
+    {
+      "type": "option",
+      "key": "-a",
+      "aliases": ["--all"],
+      "optional": true,
+      "popularity": 4,
+      "summary": "列出本地与远程分支",
+      "detail": "列表模式包含远程跟踪分支。",
+      "example": "git branch -a"
+    },
+    {
+      "type": "option",
+      "key": "-r",
+      "aliases": ["--remotes"],
+      "optional": true,
+      "popularity": 3,
+      "summary": "仅列出远程跟踪分支",
+      "detail": "只显示远程跟踪引用。",
+      "example": "git branch -r"
+    },
+    {
+      "type": "option",
+      "key": "-v",
+      "aliases": ["--verbose"],
+      "optional": true,
+      "popularity": 3,
+      "summary": "显示各分支最新提交",
+      "detail": "显示短 SHA 与提交标题；连用两次附加上游信息。",
+      "example": "git branch -vv"
+    },
+    {
+      "type": "option",
+      "key": "-l",
+      "aliases": ["--list"],
+      "optional": true,
+      "popularity": 3,
+      "summary": "以列表模式列出分支",
+      "detail": "显式进入列表模式，可配合模式参数过滤。",
+      "example": "git branch --list feat*"
+    },
+    {
+      "type": "option",
+      "key": "--show-current",
+      "optional": true,
+      "since": "2.22",
+      "popularity": 3,
+      "summary": "只输出当前分支名",
+      "detail": "适合脚本获取当前分支。",
+      "example": "git branch --show-current"
+    },
+    {
+      "type": "option",
+      "key": "-u",
+      "aliases": ["--set-upstream-to"],
+      "param": { "kind": "branch", "name": "upstream" },
+      "optional": true,
+      "popularity": 3,
+      "summary": "设置分支的上游",
+      "detail": "把指定分支的上游改为 <upstream>，影响 push/pull 的默认目标。",
+      "example": "git branch -u origin/main"
+    },
+    {
+      "type": "option",
+      "key": "--unset-upstream",
+      "optional": true,
+      "popularity": 2,
+      "summary": "取消分支的上游设置",
+      "detail": "移除 branch.<name>.remote 与 merge 配置。",
+      "example": "git branch --unset-upstream"
+    },
+    {
+      "type": "option",
+      "key": "-f",
+      "aliases": ["--force"],
+      "optional": true,
+      "popularity": 2,
+      "summary": "强制创建、重置或改名",
+      "detail": "允许把分支重置到别的起点，或覆盖已存在的改名目标。",
+      "example": "git branch -f topic HEAD~3"
+    },
+    {
+      "type": "option",
+      "key": "-t",
+      "aliases": ["--track"],
+      "optional": true,
+      "popularity": 2,
+      "summary": "创建分支时自动跟踪",
+      "detail": "以起点分支为上游创建新分支。",
+      "example": "git branch -t topic origin/main"
+    },
+    {
+      "type": "option",
+      "key": "--contains",
+      "param": { "kind": "commit", "name": "commit" },
+      "optional": true,
+      "popularity": 2,
+      "summary": "列出包含该提交的分支",
+      "detail": "省略 <commit> 时默认 HEAD。",
+      "example": "git branch --contains HEAD~5"
+    },
+    {
+      "type": "option",
+      "key": "--merged",
+      "param": { "kind": "commit", "name": "commit" },
+      "optional": true,
+      "popularity": 2,
+      "summary": "列出已并入该提交的分支",
+      "detail": "常用于找出可以安全删除的分支。",
+      "example": "git branch --merged main"
+    },
+    {
+      "type": "option",
+      "key": "--no-merged",
+      "param": { "kind": "commit", "name": "commit" },
+      "optional": true,
+      "popularity": 1,
+      "summary": "列出未并入该提交的分支",
+      "detail": "与 --merged 相反。",
+      "example": "git branch --no-merged main"
+    },
+    {
+      "type": "option",
+      "key": "--sort",
+      "param": { "kind": "text", "name": "key" },
+      "optional": true,
+      "popularity": 1,
+      "summary": "按字段排序（如 refname）",
+      "detail": "字段名前加 - 表示降序，如 -committerdate。",
+      "example": "git branch --sort=-committerdate"
+    },
+    {
+      "type": "group",
+      "mode": "mutex",
+      "optional": true,
+      "members": [
+        {
+          "type": "option",
+          "key": "-d",
+          "aliases": ["--delete"],
+          "optional": true,
+          "popularity": 4,
+          "summary": "删除已合并的分支",
+          "detail": "未合并到上游的分支会被拒绝删除。",
+          "example": "git branch -d topic"
+        },
+        {
+          "type": "option",
+          "key": "-D",
+          "optional": true,
+          "popularity": 3,
+          "summary": "强制删除（含未合并）",
+          "detail": "等价于 --delete --force。",
+          "example": "git branch -D topic"
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "mode": "mutex",
+      "optional": true,
+      "members": [
+        {
+          "type": "option",
+          "key": "-m",
+          "aliases": ["--move"],
+          "optional": true,
+          "popularity": 3,
+          "summary": "重命名分支",
+          "detail": "连同引用日志一起移动；省略旧名即当前分支。",
+          "example": "git branch -m new-name"
+        },
+        {
+          "type": "option",
+          "key": "-M",
+          "optional": true,
+          "popularity": 2,
+          "summary": "重命名并覆盖同名分支",
+          "detail": "目标分支已存在时也执行。",
+          "example": "git branch -M main"
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "mode": "mutex",
+      "optional": true,
+      "members": [
+        {
+          "type": "option",
+          "key": "-c",
+          "aliases": ["--copy"],
+          "optional": true,
+          "popularity": 1,
+          "summary": "复制分支及其配置",
+          "detail": "连同引用日志与上游配置一起复制。",
+          "example": "git branch -c topic topic-backup"
+        },
+        {
+          "type": "option",
+          "key": "-C",
+          "optional": true,
+          "popularity": 1,
+          "summary": "复制分支并覆盖同名目标",
+          "detail": "目标分支已存在时也执行。",
+          "example": "git branch -C topic backup"
+        }
+      ]
+    },
+    {
+      "type": "positional",
+      "param": { "kind": "branch", "name": "branch" },
+      "optional": true,
+      "repeatable": true,
+      "popularity": 4,
+      "summary": "分支名或匹配模式",
+      "detail": "列表模式可给 glob 模式；删除与改名模式给分支名。",
+      "example": "git branch feat-*"
+    }
+  ],
+  "examples": [
+    { "cmd": "git branch feature-x", "note": "基于当前 HEAD 创建新分支" },
+    { "cmd": "git branch -d feature-x", "note": "删除已合并的分支" },
+    { "cmd": "git branch -vv", "note": "查看各分支最新提交与上游" }
+  ],
+  "notes": ["-D 会丢弃未合并的提交", "分支名支持用 / 分层命名"]
+}

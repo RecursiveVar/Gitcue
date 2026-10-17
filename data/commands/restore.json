@@ -1,0 +1,110 @@
+{
+  "schemaVersion": "1.0",
+  "command": "restore",
+  "category": "porcelain",
+  "popularity": 3,
+  "summary": "从指定提交恢复文件到工作区或索引",
+  "grammar": [
+    {
+      "type": "option",
+      "key": "-s",
+      "aliases": ["--source"],
+      "param": { "kind": "commit", "name": "tree-ish" },
+      "popularity": 3,
+      "summary": "从指定提交取回文件内容",
+      "detail": "省略时默认从 HEAD 恢复。源可以是分支、标签等任意提交表达式。",
+      "example": "git restore --source HEAD~1 app.js"
+    },
+    {
+      "type": "group",
+      "mode": "mutex",
+      "members": [
+        {
+          "type": "option",
+          "key": "-S",
+          "aliases": ["--staged"],
+          "popularity": 3,
+          "summary": "恢复到暂存区（索引）",
+          "detail": "把文件在暂存区中的内容恢复到源提交的状态，常用于取消暂存。",
+          "example": "git restore --staged app.js"
+        },
+        {
+          "type": "option",
+          "key": "-W",
+          "aliases": ["--worktree"],
+          "popularity": 2,
+          "summary": "恢复到工作区（默认）"
+        }
+      ]
+    },
+    {
+      "type": "option",
+      "key": "-p",
+      "aliases": ["--patch"],
+      "popularity": 2,
+      "summary": "交互式选择要恢复的代码块"
+    },
+    {
+      "type": "option",
+      "key": "-q",
+      "aliases": ["--quiet"],
+      "popularity": 1,
+      "summary": "不输出进度信息"
+    },
+    {
+      "type": "option",
+      "key": "-m",
+      "aliases": ["--merge"],
+      "popularity": 2,
+      "summary": "以三方合并方式恢复",
+      "detail": "恢复时保留本地未提交改动并与之合并。"
+    },
+    {
+      "type": "option",
+      "key": "--conflict",
+      "param": { "kind": "enum", "name": "style", "enum": ["merge", "diff3", "zdiff3"] },
+      "popularity": 1,
+      "summary": "指定冲突展示风格"
+    },
+    {
+      "type": "option",
+      "key": "-2",
+      "aliases": ["--ours"],
+      "popularity": 2,
+      "summary": "未合并路径取本方版本"
+    },
+    {
+      "type": "option",
+      "key": "-3",
+      "aliases": ["--theirs"],
+      "popularity": 2,
+      "summary": "未合并路径取对方版本"
+    },
+    {
+      "type": "option",
+      "key": "--ignore-unmerged",
+      "popularity": 1,
+      "summary": "跳过未合并条目不报错"
+    },
+    {
+      "type": "option",
+      "key": "--overlay",
+      "popularity": 1,
+      "summary": "恢复时不删除源中不存在的文件"
+    },
+    {
+      "type": "positional",
+      "param": { "kind": "pathspec", "name": "pathspec" },
+      "repeatable": true,
+      "popularity": 5,
+      "summary": "要恢复的文件路径",
+      "example": "git restore src/app.js"
+    }
+  ],
+  "examples": [
+    { "cmd": "git restore --source HEAD~1 hello.js", "note": "把 hello.js 恢复到上一提交的版本" },
+    { "cmd": "git restore --staged hello.js", "note": "取消暂存，保留工作区改动" },
+    { "cmd": "git restore .", "note": "丢弃当前目录全部未暂存的改动" }
+  ],
+  "notes": ["默认只恢复工作区，加 --staged 才动索引", "与 checkout 不同，restore 不切换分支"]
+}

@@ -1,0 +1,7 @@
+{
+  "name": "gitcue-test-suite",
+  "private": true,
+  "version": "0.1.0",
+  "description": "test 目录入口垫片：Node v24 起 `node --test <目录>` 会把目录当子进程入口执行而非递归收集，本 package.json 使其加载 index.mjs 汇集运行全部测试（详见 index.mjs 头注）。npm test 的 glob 形式不受影响。",
+  "main": "index.mjs"
+}

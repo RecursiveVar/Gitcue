@@ -1,0 +1,119 @@
+{
+  "schemaVersion": "1.0",
+  "command": "reset",
+  "category": "porcelain",
+  "popularity": 4,
+  "summary": "重置当前分支到指定提交，可联动索引与工作区",
+  "grammar": [
+    {
+      "type": "group",
+      "mode": "mutex",
+      "members": [
+        {
+          "type": "option",
+          "key": "--soft",
+          "popularity": 4,
+          "summary": "只移动 HEAD，保留索引与工作区",
+          "detail": "撤销提交但改动仍留在暂存区，常用于重新组织提交。",
+          "example": "git reset --soft HEAD~1"
+        },
+        {
+          "type": "option",
+          "key": "--mixed",
+          "popularity": 3,
+          "summary": "重置 HEAD 与索引，保留工作区（默认）",
+          "detail": "取消暂存但不改动工作区文件内容。未指定模式时即为此模式。"
+        },
+        {
+          "type": "option",
+          "key": "--hard",
+          "popularity": 5,
+          "summary": "重置 HEAD、索引与工作区，丢弃改动",
+          "detail": "未提交的改动将被全部丢弃且难以找回。执行前请确认没有需要保留的内容。",
+          "example": "git reset --hard origin/main"
+        },
+        {
+          "type": "option",
+          "key": "--merge",
+          "popularity": 2,
+          "summary": "重置 HEAD 与索引，保留未合并改动",
+          "detail": "适合退出合并状态同时保留有冲突的改动。"
+        },
+        {
+          "type": "option",
+          "key": "--keep",
+          "popularity": 2,
+          "summary": "移动 HEAD 并尽量保留本地改动",
+          "detail": "本地改动与目标冲突时会中止，比 --hard 安全。"
+        }
+      ]
+    },
+    {
+      "type": "option",
+      "key": "-q",
+      "aliases": ["--quiet"],
+      "popularity": 2,
+      "summary": "静默模式，只报告错误"
+    },
+    {
+      "type": "option",
+      "key": "-p",
+      "aliases": ["--patch"],
+      "popularity": 3,
+      "summary": "交互式选择要重置的代码块",
+      "detail": "逐块挑选需要重置的内容，适合精确撤销部分暂存。",
+      "example": "git reset -p HEAD"
+    },
+    {
+      "type": "option",
+      "key": "-N",
+      "aliases": ["--intent-to-add"],
+      "popularity": 1,
+      "summary": "为移除的路径记录稍后添加标记"
+    },
+    {
+      "type": "option",
+      "key": "--refresh",
+      "popularity": 1,
+      "summary": "重置后刷新索引统计信息"
+    },
+    {
+      "type": "option",
+      "key": "--pathspec-from-file",
+      "param": { "kind": "text", "name": "file" },
+      "popularity": 1,
+      "summary": "从文件读取路径规格"
+    },
+    {
+      "type": "option",
+      "key": "--pathspec-file-nul",
+      "popularity": 1,
+      "summary": "路径以 NUL 分隔（配合上一选项）"
+    },
+    {
+      "type": "positional",
+      "param": { "kind": "commit", "name": "commit" },
+      "optional": true,
+      "popularity": 4,
+      "summary": "目标提交（默认 HEAD）",
+      "detail": "支持分支、标签、短 SHA 等任意提交表达式。",
+      "example": "git reset HEAD~2"
+    },
+    {
+      "type": "positional",
+      "param": { "kind": "pathspec", "name": "pathspec" },
+      "optional": true,
+      "repeatable": true,
+      "popularity": 3,
+      "summary": "要重置的路径",
+      "detail": "带路径调用时只重置索引，不移动 HEAD。",
+      "example": "git reset HEAD src/"
+    }
+  ],
+  "examples": [
+    { "cmd": "git reset --soft HEAD~1", "note": "撤销最近一次提交，改动保留在暂存区" },
+    { "cmd": "git reset --hard origin/main", "note": "丢弃全部本地改动，与远端 main 完全一致" },
+    { "cmd": "git reset HEAD src/app.js", "note": "取消某文件的暂存，不影响工作区内容" }
+  ],
+  "notes": ["--hard 会丢弃未提交改动，执行前请确认", "带路径调用时只重置索引，不移动 HEAD"]
+}

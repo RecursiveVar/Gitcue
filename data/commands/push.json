@@ -1,0 +1,190 @@
+{
+  "schemaVersion": "1.0",
+  "command": "push",
+  "category": "porcelain",
+  "popularity": 5,
+  "summary": "把本地提交推送到远端仓库",
+  "grammar": [
+    {
+      "type": "option",
+      "key": "-f",
+      "aliases": ["--force"],
+      "optional": true,
+      "mutex": "force-mode",
+      "popularity": 4,
+      "summary": "强制推送，覆盖远端引用",
+      "detail": "无视远端已有提交直接覆盖，会改写远端历史；共享分支慎用，优先考虑 --force-with-lease。",
+      "example": "git push -f origin main"
+    },
+    {
+      "type": "option",
+      "key": "--force-with-lease",
+      "optional": true,
+      "mutex": "force-mode",
+      "popularity": 4,
+      "summary": "远端与本地记录一致才覆盖",
+      "detail": "比 --force 安全：若他人已推送新提交则拒绝推送，降低覆盖他人工作的风险。",
+      "example": "git push --force-with-lease"
+    },
+    {
+      "type": "option",
+      "key": "-u",
+      "aliases": ["--set-upstream"],
+      "optional": true,
+      "popularity": 4,
+      "summary": "推送并建立上游跟踪",
+      "detail": "把推送的分支设为当前分支的上游，之后 git pull/push 可省略参数。",
+      "example": "git push -u origin main"
+    },
+    {
+      "type": "option",
+      "key": "--all",
+      "aliases": ["--branches"],
+      "optional": true,
+      "popularity": 3,
+      "summary": "推送全部本地分支",
+      "detail": "把 refs/heads 下所有分支推送到远端。--branches 为其别名。",
+      "example": "git push --all"
+    },
+    {
+      "type": "option",
+      "key": "--tags",
+      "optional": true,
+      "popularity": 3,
+      "summary": "推送全部本地标签",
+      "detail": "把 refs/tags 下的标签一并推送；不能与 --all/--mirror 同用。",
+      "example": "git push --tags"
+    },
+    {
+      "type": "option",
+      "key": "-d",
+      "aliases": ["--delete"],
+      "optional": true,
+      "popularity": 3,
+      "summary": "删除远端引用",
+      "detail": "按引用规格删除远端分支或标签，如 -d origin dev。",
+      "example": "git push -d origin dev"
+    },
+    {
+      "type": "option",
+      "key": "-n",
+      "aliases": ["--dry-run"],
+      "optional": true,
+      "popularity": 2,
+      "summary": "只演示将要推送的内容",
+      "detail": "做全部检查并显示将更新的引用，但不真正上传。",
+      "example": "git push -n"
+    },
+    {
+      "type": "option",
+      "key": "--follow-tags",
+      "optional": true,
+      "popularity": 2,
+      "summary": "附带推送相关标签",
+      "detail": "推送分支的同时带上可达且远端缺失的标签，发版场景常用。",
+      "example": "git push --follow-tags"
+    },
+    {
+      "type": "option",
+      "key": "--mirror",
+      "optional": true,
+      "popularity": 1,
+      "summary": "镜像推送全部引用",
+      "detail": "按 refs/ 全量镜像推送，并删除远端多余引用；会改写远端，慎用。",
+      "example": "git push --mirror"
+    },
+    {
+      "type": "option",
+      "key": "--atomic",
+      "optional": true,
+      "popularity": 1,
+      "summary": "远端原子性更新引用",
+      "detail": "全部引用要么都更新成功要么都不生效，需服务端支持。",
+      "example": "git push --atomic origin main dev"
+    },
+    {
+      "type": "option",
+      "key": "--porcelain",
+      "optional": true,
+      "popularity": 1,
+      "summary": "机器可读输出",
+      "detail": "以稳定格式输出推送结果，便于脚本解析。",
+      "example": "git push --porcelain"
+    },
+    {
+      "type": "option",
+      "key": "--prune",
+      "optional": true,
+      "popularity": 1,
+      "summary": "删除远端多余引用",
+      "detail": "推送时删除远端已不在本地的引用，与 --mirror 类似但仅限分支。",
+      "example": "git push --prune"
+    },
+    {
+      "type": "option",
+      "key": "--force-if-includes",
+      "optional": true,
+      "since": "2.30",
+      "popularity": 1,
+      "summary": "lease 时校验本地已含远端",
+      "detail": "配合 --force-with-lease：本地必须已包含上次抓取的远端提交才允许覆盖。",
+      "example": "git push --force-with-lease --force-if-includes"
+    },
+    {
+      "type": "option",
+      "key": "-o",
+      "aliases": ["--push-option"],
+      "param": { "kind": "text", "name": "option" },
+      "optional": true,
+      "popularity": 1,
+      "summary": "传给服务端的选项",
+      "detail": "原样传给远端 receive-pack 的自定义选项，如 CI 跳过标记。",
+      "example": "git push -o ci.skip"
+    },
+    {
+      "type": "option",
+      "key": "-q",
+      "aliases": ["--quiet"],
+      "optional": true,
+      "popularity": 1,
+      "summary": "减少输出",
+      "detail": "抑制常规进度，只保留错误与必要结果。",
+      "example": "git push -q"
+    },
+    {
+      "type": "option",
+      "key": "-v",
+      "aliases": ["--verbose"],
+      "optional": true,
+      "popularity": 1,
+      "summary": "输出详细信息",
+      "detail": "显示推送过程与远端响应的详细内容。",
+      "example": "git push -v"
+    },
+    {
+      "type": "positional",
+      "param": { "kind": "remote", "name": "repository" },
+      "optional": true,
+      "popularity": 3,
+      "summary": "远程仓库名（默认取上游）",
+      "detail": "省略时使用当前分支的上游；无上游时按 push.default 规则处理。",
+      "example": "git push origin"
+    },
+    {
+      "type": "positional",
+      "param": { "kind": "branch", "name": "refspec" },
+      "optional": true,
+      "repeatable": true,
+      "popularity": 3,
+      "summary": "要推送的引用规格",
+      "detail": "形如 src:dst，如 main:main；v0.1 以分支名简化建模。",
+      "example": "git push origin main"
+    }
+  ],
+  "examples": [
+    { "cmd": "git push -u origin main", "note": "首次推送并建立上游跟踪" },
+    { "cmd": "git push --tags", "note": "推送全部本地标签" },
+    { "cmd": "git push -d origin old-branch", "note": "删除远端分支" }
+  ],
+  "notes": ["force 推送会改写远端历史，慎用", "refspec 形如 src:dst，可省略 :dst"]
+}

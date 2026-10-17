@@ -1,0 +1,133 @@
+{
+  "schemaVersion": "1.0",
+  "command": "fetch",
+  "category": "porcelain",
+  "popularity": 4,
+  "summary": "从远端仓库下载对象与引用",
+  "grammar": [
+    {
+      "type": "option",
+      "key": "-p",
+      "aliases": ["--prune"],
+      "optional": true,
+      "popularity": 5,
+      "summary": "清理远端已删除的跟踪分支",
+      "detail": "抓取后删除远端已不存在、本地仍在跟踪的远程分支。建议每次 fetch 都带上，保持 remote 引用整洁。",
+      "example": "git fetch -p origin"
+    },
+    {
+      "type": "option",
+      "key": "--all",
+      "optional": true,
+      "popularity": 4,
+      "summary": "抓取全部远程仓库",
+      "detail": "对配置中的每个远程仓库执行抓取。可用 remote.<name>.skip 配置跳过个别远程。",
+      "example": "git fetch --all"
+    },
+    {
+      "type": "option",
+      "key": "-t",
+      "aliases": ["--tags"],
+      "optional": true,
+      "mutex": "tags-mode",
+      "popularity": 3,
+      "summary": "抓取远端全部标签",
+      "detail": "把远端 refs/tags 下的全部标签下载到本地。与 -n 互斥。",
+      "example": "git fetch --tags"
+    },
+    {
+      "type": "option",
+      "key": "-n",
+      "optional": true,
+      "mutex": "tags-mode",
+      "popularity": 2,
+      "summary": "不抓取标签（等同 --no-tags）",
+      "detail": "禁用默认的标签跟随抓取行为，只抓取引用规格指定的对象。",
+      "example": "git fetch -n origin"
+    },
+    {
+      "type": "option",
+      "key": "--dry-run",
+      "optional": true,
+      "popularity": 3,
+      "summary": "只演示将要抓取的内容",
+      "detail": "显示将执行的动作但不真正下载与更新引用。",
+      "example": "git fetch --dry-run"
+    },
+    {
+      "type": "option",
+      "key": "--depth",
+      "param": { "kind": "text", "name": "depth" },
+      "optional": true,
+      "popularity": 2,
+      "summary": "限制抓取的历史深度",
+      "detail": "配合浅克隆使用，只抓取指定深度的提交历史。",
+      "example": "git fetch --depth=1 origin"
+    },
+    {
+      "type": "option",
+      "key": "-f",
+      "aliases": ["--force"],
+      "optional": true,
+      "popularity": 1,
+      "summary": "强制更新本地远程引用",
+      "detail": "远端历史被改写（如变基）后，强制让本地远程跟踪引用对齐远端。",
+      "example": "git fetch -f origin"
+    },
+    {
+      "type": "option",
+      "key": "-j",
+      "aliases": ["--jobs"],
+      "param": { "kind": "text", "name": "n" },
+      "optional": true,
+      "popularity": 1,
+      "summary": "子模块并行抓取数",
+      "detail": "控制递归抓取子模块时的并行度。",
+      "example": "git fetch -j 4"
+    },
+    {
+      "type": "option",
+      "key": "-P",
+      "aliases": ["--prune-tags"],
+      "optional": true,
+      "popularity": 1,
+      "summary": "清理远端已删除的标签",
+      "detail": "与 -p 配合使用，删除远端已不存在的本地标签。",
+      "example": "git fetch -p -P"
+    },
+    {
+      "type": "option",
+      "key": "--unshallow",
+      "optional": true,
+      "popularity": 1,
+      "summary": "把浅仓库补全为完整历史",
+      "detail": "如果当前是浅克隆，抓取全部历史使其成为完整仓库。",
+      "example": "git fetch --unshallow"
+    },
+    {
+      "type": "positional",
+      "param": { "kind": "remote", "name": "repository" },
+      "optional": true,
+      "popularity": 3,
+      "summary": "远程仓库名（默认取上游）",
+      "detail": "省略时抓取当前分支的上游；无上游则抓取 origin。",
+      "example": "git fetch origin"
+    },
+    {
+      "type": "positional",
+      "param": { "kind": "branch", "name": "refspec" },
+      "optional": true,
+      "repeatable": true,
+      "popularity": 3,
+      "summary": "要抓取的引用规格",
+      "detail": "如 main 或 main:refs/remotes/origin/main；v0.1 以分支名简化建模。",
+      "example": "git fetch origin main"
+    }
+  ],
+  "examples": [
+    { "cmd": "git fetch origin", "note": "抓取 origin 的最新对象与引用" },
+    { "cmd": "git fetch -p", "note": "抓取并清理远端已删除的分支" },
+    { "cmd": "git fetch --all --tags", "note": "抓取全部远程并带下标签" }
+  ],
+  "notes": ["抓取只下载不合并，需 merge/rebase 整合", "-p 只影响远程跟踪引用"]
+}

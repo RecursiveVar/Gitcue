@@ -1,0 +1,159 @@
+{
+  "schemaVersion": "1.0",
+  "command": "merge",
+  "category": "porcelain",
+  "popularity": 4,
+  "summary": "把其它分支的改动并入当前分支",
+  "grammar": [
+    {
+      "type": "option",
+      "key": "--no-ff",
+      "optional": true,
+      "popularity": 4,
+      "summary": "禁用快进，强制生成合并提交",
+      "detail": "即使可以快进也创建合并节点，保留分支拓扑痕迹。常用于版本合入。",
+      "example": "git merge --no-ff dev"
+    },
+    {
+      "type": "option",
+      "key": "--ff-only",
+      "optional": true,
+      "popularity": 4,
+      "summary": "仅允许快进，否则中止",
+      "detail": "若无法快进则直接失败不做合并，保证历史线性且不产生合并提交。",
+      "example": "git merge --ff-only origin/main"
+    },
+    {
+      "type": "option",
+      "key": "--squash",
+      "optional": true,
+      "popularity": 3,
+      "summary": "合并结果放入工作区不提交",
+      "detail": "把对方分支的最终改动压进工作区与暂存区，由你自行提交一条普通提交。",
+      "example": "git merge --squash feat"
+    },
+    {
+      "type": "option",
+      "key": "-m",
+      "aliases": ["--message"],
+      "param": { "kind": "text", "name": "message" },
+      "optional": true,
+      "popularity": 4,
+      "summary": "指定合并提交说明",
+      "detail": "不打开编辑器直接使用给定说明，适合脚本化合并。",
+      "example": "git merge -m '合并 feat 分支' feat"
+    },
+    {
+      "type": "option",
+      "key": "-s",
+      "aliases": ["--strategy"],
+      "param": { "kind": "enum", "name": "strategy", "enum": ["ort", "recursive", "octopus", "ours", "subtree"] },
+      "optional": true,
+      "popularity": 2,
+      "summary": "指定合并策略",
+      "detail": "ort 为 git 2.30 起的默认策略；ours 只保留己方历史。详见 git-merge 文档。",
+      "example": "git merge -s ours stale"
+    },
+    {
+      "type": "option",
+      "key": "-X",
+      "aliases": ["--strategy-option"],
+      "param": { "kind": "text", "name": "option=value" },
+      "optional": true,
+      "popularity": 1,
+      "summary": "传给合并策略的参数",
+      "detail": "如 -X theirs 在冲突处优先取对方版本。仅影响策略行为，不改策略本身。",
+      "example": "git merge -X theirs feat"
+    },
+    {
+      "type": "option",
+      "key": "--no-commit",
+      "optional": true,
+      "popularity": 2,
+      "summary": "合并成功后不自动提交",
+      "detail": "结果停留在暂存区，便于合并后继续修改或审查再提交。",
+      "example": "git merge --no-commit feat"
+    },
+    {
+      "type": "option",
+      "key": "-e",
+      "aliases": ["--edit"],
+      "optional": true,
+      "popularity": 2,
+      "summary": "提交前编辑合并说明",
+      "detail": "即使给了 -m 也打开编辑器供修改。",
+      "example": "git merge -e -m wip feat"
+    },
+    {
+      "type": "option",
+      "key": "-F",
+      "aliases": ["--file"],
+      "param": { "kind": "text", "name": "path" },
+      "optional": true,
+      "popularity": 1,
+      "summary": "从文件读取合并说明",
+      "detail": "以文件内容作为合并提交说明，支持 - 从标准输入读取。",
+      "example": "git merge -F NOTES.txt feat"
+    },
+    {
+      "type": "option",
+      "key": "--allow-unrelated-histories",
+      "optional": true,
+      "since": "2.9",
+      "popularity": 2,
+      "summary": "允许合并不相关的历史",
+      "detail": "默认拒绝无共同祖先的合并；此选项放行，常用于仓库重组后的合并。",
+      "example": "git merge --allow-unrelated-histories docs"
+    },
+    {
+      "type": "group",
+      "mode": "mutex",
+      "optional": true,
+      "members": [
+        {
+          "type": "option",
+          "key": "--continue",
+          "optional": true,
+          "popularity": 5,
+          "summary": "冲突解决后继续合并",
+          "detail": "解决冲突并 git add 之后完成本次合并提交。",
+          "example": "git merge --continue"
+        },
+        {
+          "type": "option",
+          "key": "--abort",
+          "optional": true,
+          "popularity": 4,
+          "summary": "中止并回到合并前状态",
+          "detail": "放弃本次合并，工作区与暂存区恢复到合并开始前。",
+          "example": "git merge --abort"
+        },
+        {
+          "type": "option",
+          "key": "--quit",
+          "optional": true,
+          "popularity": 1,
+          "summary": "退出合并但保留已改动",
+          "detail": "只清除合并状态标记，冲突与已暂存内容保持原样。",
+          "example": "git merge --quit"
+        }
+      ]
+    },
+    {
+      "type": "positional",
+      "param": { "kind": "commit", "name": "commit" },
+      "optional": true,
+      "repeatable": true,
+      "popularity": 3,
+      "summary": "要合并的提交或分支",
+      "detail": "可为分支、标签或提交号；多给几个时用 octopus 策略。省略则合并上游。",
+      "example": "git merge dev"
+    }
+  ],
+  "examples": [
+    { "cmd": "git merge dev", "note": "把 dev 并入当前分支" },
+    { "cmd": "git merge --no-ff release-1.2", "note": "保留合并节点地合入版本分支" },
+    { "cmd": "git merge --abort", "note": "放弃本次冲突处理" }
+  ],
+  "notes": ["冲突解决后先 git add 再 --continue", "冲突文件用 git status 查看"]
+}

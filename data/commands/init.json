@@ -1,0 +1,104 @@
+{
+  "schemaVersion": "1.0",
+  "command": "init",
+  "category": "porcelain",
+  "popularity": 3,
+  "summary": "创建空的 Git 仓库",
+  "grammar": [
+    {
+      "type": "option",
+      "key": "--bare",
+      "optional": true,
+      "popularity": 4,
+      "summary": "创建裸仓库（无工作区）",
+      "detail": "仓库只含 .git 内部目录结构，不含工作区检出。常用于服务端存放共享仓库。",
+      "example": "git init --bare server.git"
+    },
+    {
+      "type": "option",
+      "key": "-b",
+      "aliases": ["--initial-branch"],
+      "param": { "kind": "branch", "name": "branch" },
+      "optional": true,
+      "since": "2.28",
+      "popularity": 4,
+      "summary": "指定初始分支名",
+      "detail": "不指定时默认 master（可用 init.defaultBranch 配置修改）。低版本 git 需用 symbolic-ref 代替。",
+      "example": "git init -b main"
+    },
+    {
+      "type": "option",
+      "key": "-q",
+      "aliases": ["--quiet"],
+      "optional": true,
+      "popularity": 2,
+      "summary": "只打印错误与警告",
+      "detail": "抑制初始化过程的常规输出。",
+      "example": "git init -q"
+    },
+    {
+      "type": "option",
+      "key": "--separate-git-dir",
+      "param": { "kind": "text", "name": "gitdir" },
+      "optional": true,
+      "popularity": 1,
+      "summary": "把 .git 目录放到别处",
+      "detail": "工作区只留一个指向真实 git 目录的链接文件，适合把仓库元数据移出项目目录。",
+      "example": "git init --separate-git-dir ../meta.git"
+    },
+    {
+      "type": "option",
+      "key": "--template",
+      "param": { "kind": "text", "name": "template-directory" },
+      "optional": true,
+      "popularity": 1,
+      "summary": "指定模板目录",
+      "detail": "以该目录内容作为新仓库 .git 的初始骨架（如 hooks、描述文件）。",
+      "example": "git init --template=/usr/share/git-template"
+    },
+    {
+      "type": "option",
+      "key": "--shared",
+      "optional": true,
+      "popularity": 1,
+      "summary": "以组共享权限初始化",
+      "detail": "裸仓库场景下允许同组用户读写，可附加权限值如 --shared=0660。",
+      "example": "git init --bare --shared server.git"
+    },
+    {
+      "type": "option",
+      "key": "--object-format",
+      "param": { "kind": "enum", "name": "hash", "enum": ["sha1", "sha256"] },
+      "optional": true,
+      "popularity": 1,
+      "summary": "指定对象哈希算法",
+      "detail": "sha256 更抗碰撞，但与 sha1 仓库互不兼容。",
+      "example": "git init --object-format=sha256"
+    },
+    {
+      "type": "option",
+      "key": "--ref-format",
+      "param": { "kind": "enum", "name": "format", "enum": ["files", "reftable"] },
+      "optional": true,
+      "popularity": 1,
+      "summary": "指定引用存储格式",
+      "detail": "files 为传统松散文件；reftable 为新表格式，大规模仓库下更高效。",
+      "example": "git init --ref-format=reftable"
+    },
+    {
+      "type": "positional",
+      "param": { "kind": "text", "name": "directory" },
+      "optional": true,
+      "popularity": 4,
+      "summary": "在指定目录初始化",
+      "detail": "目录不存在则创建；省略时在当前目录初始化。",
+      "example": "git init myapp"
+    }
+  ],
+  "examples": [
+    { "cmd": "git init", "note": "在当前目录创建仓库" },
+    { "cmd": "git init -b main myapp", "note": "新建 myapp 目录并以 main 为初始分支" },
+    { "cmd": "git init --bare server.git", "note": "创建服务端裸仓库" }
+  ],
+  "notes": ["旧版 git 默认分支为 master", "sha256 仓库与 sha1 不互通"]
+}

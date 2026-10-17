@@ -1,0 +1,210 @@
+{
+  "schemaVersion": "1.0",
+  "command": "commit",
+  "category": "porcelain",
+  "popularity": 5,
+  "summary": "把暂存区内容记录为提交",
+  "grammar": [
+    {
+      "type": "option",
+      "key": "-m",
+      "aliases": ["--message"],
+      "param": { "kind": "text", "name": "msg" },
+      "optional": true,
+      "repeatable": true,
+      "popularity": 5,
+      "summary": "直接给出提交说明",
+      "detail": "可多次使用，段落依次拼接，不再打开编辑器。",
+      "example": "git commit -m \"修复登录崩溃\""
+    },
+    {
+      "type": "option",
+      "key": "-a",
+      "aliases": ["--all"],
+      "optional": true,
+      "popularity": 5,
+      "summary": "自动暂存已跟踪文件改动",
+      "detail": "提交前把已跟踪文件的修改与删除加入暂存区。",
+      "example": "git commit -a -m \"更新文档\""
+    },
+    {
+      "type": "option",
+      "key": "--amend",
+      "optional": true,
+      "popularity": 4,
+      "summary": "修正上一次提交",
+      "detail": "替换最近一次提交的内容与说明；已推送的提交慎用。",
+      "example": "git commit --amend"
+    },
+    {
+      "type": "option",
+      "key": "-n",
+      "aliases": ["--no-verify"],
+      "optional": true,
+      "popularity": 3,
+      "summary": "跳过提交钩子校验",
+      "detail": "跳过 pre-commit 与 commit-msg 钩子。",
+      "example": "git commit -n"
+    },
+    {
+      "type": "option",
+      "key": "-s",
+      "aliases": ["--signoff"],
+      "optional": true,
+      "popularity": 3,
+      "summary": "追加 Signed-off-by 签名",
+      "detail": "在提交说明末尾以当前用户身份追加签名行。",
+      "example": "git commit -s"
+    },
+    {
+      "type": "option",
+      "key": "-v",
+      "aliases": ["--verbose"],
+      "optional": true,
+      "popularity": 2,
+      "summary": "编辑器中附上完整差异",
+      "detail": "在编辑说明时附上待提交差异，便于核对。",
+      "example": "git commit -v"
+    },
+    {
+      "type": "option",
+      "key": "-e",
+      "aliases": ["--edit"],
+      "optional": true,
+      "popularity": 2,
+      "summary": "强制打开编辑器",
+      "detail": "即使给了 -m/-F 也先打开编辑器。",
+      "example": "git commit -e -m \"初稿\""
+    },
+    {
+      "type": "option",
+      "key": "-F",
+      "aliases": ["--file"],
+      "param": { "kind": "text", "name": "file" },
+      "optional": true,
+      "popularity": 2,
+      "summary": "从文件读取提交说明",
+      "detail": "以 - 表示从标准输入读取。",
+      "example": "git commit -F CHANGELOG.txt"
+    },
+    {
+      "type": "option",
+      "key": "--allow-empty",
+      "optional": true,
+      "popularity": 2,
+      "summary": "允许无改动的空提交",
+      "detail": "暂存区无变化时也创建提交。",
+      "example": "git commit --allow-empty -m \"标记\""
+    },
+    {
+      "type": "option",
+      "key": "--allow-empty-message",
+      "optional": true,
+      "popularity": 1,
+      "summary": "允许空白提交说明",
+      "detail": "跳过对空说明的拦截。"
+    },
+    {
+      "type": "option",
+      "key": "--dry-run",
+      "optional": true,
+      "popularity": 2,
+      "summary": "试运行，不真正提交",
+      "detail": "显示将要提交的路径，不创建提交。",
+      "example": "git commit --dry-run"
+    },
+    {
+      "type": "option",
+      "key": "--author",
+      "param": { "kind": "text", "name": "author" },
+      "optional": true,
+      "popularity": 2,
+      "summary": "以指定作者提交",
+      "detail": "格式为“姓名 <邮箱>”。",
+      "example": "git commit --author=\"张三 <z@x.com>\""
+    },
+    {
+      "type": "option",
+      "key": "--date",
+      "param": { "kind": "text", "name": "date" },
+      "optional": true,
+      "popularity": 1,
+      "summary": "指定作者日期",
+      "detail": "覆盖提交的作者时间戳。"
+    },
+    {
+      "type": "option",
+      "key": "--reset-author",
+      "optional": true,
+      "popularity": 1,
+      "summary": "重置作者为当前用户",
+      "detail": "配合 --amend 或 -C 使用。",
+      "example": "git commit --amend --reset-author"
+    },
+    {
+      "type": "group",
+      "mode": "mutex",
+      "optional": true,
+      "members": [
+        {
+          "type": "option",
+          "key": "--fixup",
+          "param": { "kind": "commit", "name": "commit" },
+          "optional": true,
+          "popularity": 3,
+          "summary": "生成修正目标提交的提交",
+          "detail": "配合 rebase -i --autosquash 自动归位到目标提交。",
+          "example": "git commit --fixup HEAD~2"
+        },
+        {
+          "type": "option",
+          "key": "--squash",
+          "param": { "kind": "commit", "name": "commit" },
+          "optional": true,
+          "popularity": 1,
+          "summary": "生成并入目标的提交",
+          "detail": "配合 rebase -i --autosquash 与目标提交合并。",
+          "example": "git commit --squash HEAD~1"
+        },
+        {
+          "type": "option",
+          "key": "-c",
+          "aliases": ["--reedit-message"],
+          "param": { "kind": "commit", "name": "commit" },
+          "optional": true,
+          "popularity": 1,
+          "summary": "复用提交说明并编辑",
+          "detail": "沿用既有提交的作者与说明，先打开编辑器。",
+          "example": "git commit -c HEAD~3"
+        },
+        {
+          "type": "option",
+          "key": "-C",
+          "aliases": ["--reuse-message"],
+          "param": { "kind": "commit", "name": "commit" },
+          "optional": true,
+          "popularity": 2,
+          "summary": "复用提交说明不编辑",
+          "detail": "沿用既有提交的作者与说明，直接提交。",
+          "example": "git commit -C HEAD~3"
+        }
+      ]
+    },
+    {
+      "type": "positional",
+      "param": { "kind": "pathspec", "name": "pathspec" },
+      "optional": true,
+      "repeatable": true,
+      "popularity": 4,
+      "summary": "只提交匹配的文件改动",
+      "detail": "给出路径时只提交这些文件（相当于 --only）。",
+      "example": "git commit -m \"x\" src/"
+    }
+  ],
+  "examples": [
+    { "cmd": "git commit -m \"修复登录崩溃\"", "note": "以指定说明创建提交" },
+    { "cmd": "git commit -a -m \"docs: 更新说明\"", "note": "暂存全部已跟踪改动并提交" },
+    { "cmd": "git commit --amend", "note": "修正上一次提交" }
+  ],
+  "notes": ["提交前用 status 确认暂存区内容", "--amend 会改写历史，推送后慎用"]
+}

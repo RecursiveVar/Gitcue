@@ -1,0 +1,148 @@
+{
+  "schemaVersion": "1.0",
+  "command": "clone",
+  "category": "porcelain",
+  "popularity": 4,
+  "summary": "克隆仓库到新目录",
+  "grammar": [
+    {
+      "type": "option",
+      "key": "--depth",
+      "param": { "kind": "text", "name": "depth" },
+      "optional": true,
+      "popularity": 3,
+      "summary": "做指定深度的浅克隆",
+      "detail": "只取最近 n 层提交，节省时间与空间；后续可用 fetch --deepen 加深。",
+      "example": "git clone --depth 1 <repo>"
+    },
+    {
+      "type": "option",
+      "key": "-b",
+      "aliases": ["--branch"],
+      "param": { "kind": "branch", "name": "branch" },
+      "optional": true,
+      "popularity": 3,
+      "summary": "检出指定分支而非默认 HEAD",
+      "detail": "克隆后检出远端的指定分支。",
+      "example": "git clone -b dev <repo>"
+    },
+    {
+      "type": "option",
+      "key": "-o",
+      "aliases": ["--origin"],
+      "param": { "kind": "text", "name": "name" },
+      "optional": true,
+      "popularity": 2,
+      "summary": "指定远程名（默认 origin）",
+      "detail": "把克隆来源命名为 <name> 而非 origin。",
+      "example": "git clone -o upstream <repo>"
+    },
+    {
+      "type": "option",
+      "key": "--recurse-submodules",
+      "aliases": ["--recursive"],
+      "optional": true,
+      "popularity": 2,
+      "summary": "克隆后初始化子模块",
+      "detail": "克隆完成后立即检出全部子模块。",
+      "example": "git clone --recurse-submodules <repo>"
+    },
+    {
+      "type": "option",
+      "key": "--single-branch",
+      "optional": true,
+      "popularity": 2,
+      "summary": "只克隆单个分支",
+      "detail": "仅克隆 HEAD（或 -b 指定）所在分支的历史。",
+      "example": "git clone --single-branch <repo>"
+    },
+    {
+      "type": "option",
+      "key": "--no-tags",
+      "optional": true,
+      "popularity": 2,
+      "summary": "不克隆任何标签",
+      "detail": "跳过标签的下载与后续跟踪。",
+      "example": "git clone --no-tags <repo>"
+    },
+    {
+      "type": "option",
+      "key": "-n",
+      "aliases": ["--no-checkout"],
+      "optional": true,
+      "popularity": 2,
+      "summary": "克隆后不检出工作区",
+      "detail": "只创建 .git 目录，不写出文件，稍后可自行 checkout。",
+      "example": "git clone -n <repo>"
+    },
+    {
+      "type": "option",
+      "key": "--bare",
+      "optional": true,
+      "popularity": 2,
+      "summary": "克隆为不含工作区的仓库",
+      "detail": "只保存 .git 内容，常用于建中心仓库。",
+      "example": "git clone --bare <repo>"
+    },
+    {
+      "type": "option",
+      "key": "--mirror",
+      "optional": true,
+      "popularity": 2,
+      "summary": "克隆为镜像（含远端全引用）",
+      "detail": "在 --bare 基础上再镜像全部引用，适合做远端备份。",
+      "example": "git clone --mirror <repo>"
+    },
+    {
+      "type": "option",
+      "key": "--filter",
+      "param": { "kind": "text", "name": "filter" },
+      "optional": true,
+      "popularity": 1,
+      "summary": "部分克隆过滤（如 blob:none）",
+      "detail": "按对象过滤延迟下载部分内容，如 blob:none 只取树与提交。",
+      "example": "git clone --filter=blob:none <repo>"
+    },
+    {
+      "type": "option",
+      "key": "-q",
+      "aliases": ["--quiet"],
+      "optional": true,
+      "popularity": 1,
+      "summary": "静默模式，抑制进度输出",
+      "detail": "不打印克隆进度。"
+    },
+    {
+      "type": "option",
+      "key": "-v",
+      "aliases": ["--verbose"],
+      "optional": true,
+      "popularity": 1,
+      "summary": "显示详细过程",
+      "detail": "输出克隆的详细进度。"
+    },
+    {
+      "type": "positional",
+      "param": { "kind": "text", "name": "repo" },
+      "popularity": 5,
+      "summary": "远程仓库地址或本地路径",
+      "detail": "支持 URL、scp 风格地址与本地路径。",
+      "example": "git clone https://example.com/repo.git"
+    },
+    {
+      "type": "positional",
+      "param": { "kind": "text", "name": "dir" },
+      "optional": true,
+      "popularity": 2,
+      "summary": "克隆到的目录（默认同名）",
+      "detail": "省略时按仓库名在当前目录创建。",
+      "example": "git clone <repo> my-copy"
+    }
+  ],
+  "examples": [
+    { "cmd": "git clone <repo>", "note": "克隆远程仓库到同名目录" },
+    { "cmd": "git clone --depth 1 <repo>", "note": "浅克隆最近一层提交" },
+    { "cmd": "git clone -b dev --single-branch <repo>", "note": "只克隆 dev 分支" }
+  ],
+  "notes": ["克隆即建立 origin 远程与跟踪分支", "浅克隆历史不完整，后续可加深"]
+}

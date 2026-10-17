@@ -1,0 +1,170 @@
+{
+  "schemaVersion": "1.0",
+  "command": "log",
+  "category": "porcelain",
+  "popularity": 5,
+  "summary": "查看提交历史",
+  "grammar": [
+    {
+      "type": "option",
+      "key": "-n",
+      "aliases": ["--max-count"],
+      "param": { "kind": "text", "name": "num" },
+      "optional": true,
+      "popularity": 4,
+      "summary": "限制输出的提交条数",
+      "detail": "只显示最近指定条数的提交，如 -n 5。也可写作 -5 形式。",
+      "example": "git log -n 5"
+    },
+    {
+      "type": "option",
+      "key": "--oneline",
+      "optional": true,
+      "popularity": 5,
+      "summary": "每条提交压成一行显示",
+      "detail": "等价于 --pretty=oneline --abbrev-commit，是快速浏览历史的常用组合。",
+      "example": "git log --oneline"
+    },
+    {
+      "type": "option",
+      "key": "--graph",
+      "optional": true,
+      "popularity": 4,
+      "summary": "以字符图展示分支拓扑",
+      "detail": "用 ASCII 字符绘制提交图的分叉与合并，常与 --oneline --all 同用。",
+      "example": "git log --graph --oneline --all"
+    },
+    {
+      "type": "option",
+      "key": "--all",
+      "optional": true,
+      "popularity": 4,
+      "summary": "显示所有分支的提交",
+      "detail": "近似引用（refs/）下的全部引用都参与历史输出。",
+      "example": "git log --all --oneline"
+    },
+    {
+      "type": "option",
+      "key": "-p",
+      "aliases": ["--patch"],
+      "optional": true,
+      "popularity": 3,
+      "summary": "显示每条提交的差异",
+      "detail": "在提交信息之后附上完整补丁内容，适合审查改动。",
+      "example": "git log -p -2"
+    },
+    {
+      "type": "option",
+      "key": "--stat",
+      "optional": true,
+      "popularity": 3,
+      "summary": "显示文件变更统计",
+      "detail": "列出每条提交改动过的文件与增删行数摘要。",
+      "example": "git log --stat -1"
+    },
+    {
+      "type": "option",
+      "key": "--decorate",
+      "optional": true,
+      "popularity": 2,
+      "summary": "显示引用装饰（分支/标签名）",
+      "detail": "在提交旁标注指向它的分支、标签等引用；--decorate=short 为默认。",
+      "example": "git log --oneline --decorate"
+    },
+    {
+      "type": "option",
+      "key": "--author",
+      "param": { "kind": "text", "name": "pattern" },
+      "optional": true,
+      "popularity": 2,
+      "summary": "按作者匹配提交",
+      "detail": "使用正则表达式匹配作者名与邮箱。",
+      "example": "git log --author=Ada --oneline"
+    },
+    {
+      "type": "option",
+      "key": "--since",
+      "aliases": ["--after"],
+      "param": { "kind": "text", "name": "date" },
+      "optional": true,
+      "popularity": 2,
+      "summary": "只显示此日期之后的提交",
+      "detail": "支持 2024-01-01、2.weeks.ago 等相对与绝对日期。",
+      "example": "git log --since=2.weeks.ago"
+    },
+    {
+      "type": "option",
+      "key": "--until",
+      "aliases": ["--before"],
+      "param": { "kind": "text", "name": "date" },
+      "optional": true,
+      "popularity": 2,
+      "summary": "只显示此日期之前的提交",
+      "detail": "与 --since 相对，限定时间上界；两者可组合成时间区间。",
+      "example": "git log --until=2024-01-01"
+    },
+    {
+      "type": "option",
+      "key": "--pretty",
+      "aliases": ["--format"],
+      "param": { "kind": "text", "name": "format" },
+      "optional": true,
+      "popularity": 2,
+      "summary": "自定义提交显示格式",
+      "detail": "可用 oneline、short 等预设，或 %h %s 等占位符自写格式。",
+      "example": "git log --pretty=format:%h' '%s"
+    },
+    {
+      "type": "option",
+      "key": "--name-only",
+      "optional": true,
+      "popularity": 2,
+      "summary": "只显示变更的文件名",
+      "detail": "在提交信息后仅列出改动文件路径，不含增删统计。",
+      "example": "git log --name-only -3"
+    },
+    {
+      "type": "option",
+      "key": "--follow",
+      "optional": true,
+      "popularity": 1,
+      "summary": "追踪单个文件的改名历史",
+      "detail": "必须且只能配合一个路径使用，跨越重命名继续追溯。",
+      "example": "git log --follow README.md"
+    },
+    {
+      "type": "option",
+      "key": "--reverse",
+      "optional": true,
+      "popularity": 1,
+      "summary": "按时间正序显示提交",
+      "detail": "默认新的在前，此选项改为旧的在前。",
+      "example": "git log --reverse --oneline"
+    },
+    {
+      "type": "positional",
+      "param": { "kind": "commit", "name": "revision-range" },
+      "optional": true,
+      "popularity": 3,
+      "summary": "提交范围（如 main..dev）",
+      "detail": "可为单个提交、分支或 A..B 范围；省略时从 HEAD 开始。",
+      "example": "git log main..dev"
+    },
+    {
+      "type": "positional",
+      "param": { "kind": "pathspec", "name": "path" },
+      "optional": true,
+      "repeatable": true,
+      "popularity": 3,
+      "summary": "只显示涉及这些路径的提交",
+      "detail": "按路径过滤历史；与范围之间可用 -- 分隔以消除歧义。",
+      "example": "git log -- src/"
+    }
+  ],
+  "examples": [
+    { "cmd": "git log --oneline", "note": "一行一条快速浏览历史" },
+    { "cmd": "git log -p -2 README.md", "note": "查看该文件最近两次改动内容" },
+    { "cmd": "git log --graph --oneline --all", "note": "全分支拓扑图" }
+  ],
+  "notes": ["-- 之后的参数一律按路径处理", "默认从 HEAD 按时间倒序输出"]
+}

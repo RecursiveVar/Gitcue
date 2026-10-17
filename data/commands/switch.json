@@ -1,0 +1,95 @@
+{
+  "schemaVersion": "1.0",
+  "command": "switch",
+  "category": "porcelain",
+  "popularity": 4,
+  "summary": "切换到另一个分支",
+  "grammar": [
+    {
+      "type": "group",
+      "mode": "mutex",
+      "members": [
+        {
+          "type": "option",
+          "key": "-c",
+          "aliases": ["--create"],
+          "param": { "kind": "branch", "name": "branch" },
+          "popularity": 4,
+          "summary": "创建新分支并切换过去",
+          "detail": "新分支从当前位置创建。同名分支已存在时会失败。",
+          "example": "git switch -c feature/login"
+        },
+        {
+          "type": "option",
+          "key": "-C",
+          "aliases": ["--force-create"],
+          "param": { "kind": "branch", "name": "branch" },
+          "popularity": 2,
+          "summary": "创建或重置分支并切换"
+        },
+        {
+          "type": "option",
+          "key": "-d",
+          "aliases": ["--detach"],
+          "popularity": 3,
+          "summary": "分离 HEAD 到指定提交"
+        },
+        {
+          "type": "option",
+          "key": "--orphan",
+          "param": { "kind": "branch", "name": "new-branch" },
+          "popularity": 2,
+          "summary": "切换到新的孤立分支"
+        }
+      ]
+    },
+    {
+      "type": "option",
+      "key": "-f",
+      "aliases": ["--force"],
+      "popularity": 3,
+      "summary": "强制切换，丢弃本地改动"
+    },
+    {
+      "type": "option",
+      "key": "-t",
+      "aliases": ["--track"],
+      "popularity": 2,
+      "summary": "为新分支设置上游跟踪"
+    },
+    {
+      "type": "option",
+      "key": "-m",
+      "aliases": ["--merge"],
+      "popularity": 2,
+      "summary": "三方合并携带本地改动"
+    },
+    {
+      "type": "option",
+      "key": "--discard-changes",
+      "popularity": 2,
+      "summary": "丢弃本地改动后切换"
+    },
+    {
+      "type": "option",
+      "key": "-q",
+      "aliases": ["--quiet"],
+      "popularity": 1,
+      "summary": "不输出进度信息"
+    },
+    {
+      "type": "positional",
+      "param": { "kind": "branch", "name": "branch" },
+      "popularity": 5,
+      "summary": "目标分支名",
+      "detail": "只切分支不会改动提交历史。可用 - 指上一个分支。",
+      "example": "git switch main"
+    }
+  ],
+  "examples": [
+    { "cmd": "git switch main", "note": "切换到 main 分支" },
+    { "cmd": "git switch -c feature/login", "note": "创建并切换到新分支" },
+    { "cmd": "git switch -", "note": "切回上一个分支" }
+  ],
+  "notes": ["switch 只切换分支，不碰提交历史", "远程有同名分支时会自动建立跟踪"]
+}

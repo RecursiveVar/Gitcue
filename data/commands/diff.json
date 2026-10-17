@@ -1,0 +1,176 @@
+{
+  "schemaVersion": "1.0",
+  "command": "diff",
+  "category": "porcelain",
+  "popularity": 4,
+  "summary": "比较文件或提交之间的差异",
+  "grammar": [
+    {
+      "type": "option",
+      "key": "--staged",
+      "aliases": ["--cached"],
+      "optional": true,
+      "popularity": 5,
+      "summary": "查看已暂存的改动",
+      "detail": "对比暂存区与最近提交 HEAD。",
+      "example": "git diff --staged"
+    },
+    {
+      "type": "option",
+      "key": "--stat",
+      "optional": true,
+      "popularity": 4,
+      "summary": "显示差异统计摘要",
+      "detail": "每个文件的增删行数与汇总行。",
+      "example": "git diff --stat"
+    },
+    {
+      "type": "option",
+      "key": "-p",
+      "aliases": ["--patch", "-u"],
+      "optional": true,
+      "popularity": 3,
+      "summary": "显示完整差异（默认）",
+      "detail": "以补丁格式输出，为 diff 的默认行为。"
+    },
+    {
+      "type": "option",
+      "key": "-s",
+      "aliases": ["--no-patch"],
+      "optional": true,
+      "popularity": 2,
+      "summary": "不显示差异内容",
+      "detail": "常与 --exit-code 配合只做有无差异的判断。",
+      "example": "git diff -s --exit-code"
+    },
+    {
+      "type": "option",
+      "key": "-w",
+      "aliases": ["--ignore-all-space"],
+      "optional": true,
+      "popularity": 3,
+      "summary": "忽略行内全部空白差异",
+      "detail": "比较时忽略空白字符。",
+      "example": "git diff -w"
+    },
+    {
+      "type": "option",
+      "key": "-U",
+      "aliases": ["--unified"],
+      "param": { "kind": "text", "name": "n" },
+      "optional": true,
+      "popularity": 3,
+      "summary": "上下文行数（默认 3）",
+      "detail": "每个差异块前后显示 n 行上下文。",
+      "example": "git diff -U 5"
+    },
+    {
+      "type": "option",
+      "key": "--name-only",
+      "optional": true,
+      "popularity": 4,
+      "summary": "只列出有改动的文件名",
+      "detail": "不显示内容差异，仅列路径。",
+      "example": "git diff --name-only"
+    },
+    {
+      "type": "option",
+      "key": "--name-status",
+      "optional": true,
+      "popularity": 3,
+      "summary": "列出文件名与改动类型",
+      "detail": "以 M/A/D 等字母标注增改删。",
+      "example": "git diff --name-status"
+    },
+    {
+      "type": "option",
+      "key": "--numstat",
+      "optional": true,
+      "popularity": 2,
+      "summary": "以数值显示增删行数",
+      "detail": "机器友好的统计格式。",
+      "example": "git diff --numstat"
+    },
+    {
+      "type": "option",
+      "key": "--shortstat",
+      "optional": true,
+      "popularity": 2,
+      "summary": "只显示一行汇总",
+      "detail": "仅输出总变更行数汇总。",
+      "example": "git diff --shortstat"
+    },
+    {
+      "type": "option",
+      "key": "-R",
+      "optional": true,
+      "popularity": 2,
+      "summary": "交换对比两端",
+      "detail": "反向输出差异。",
+      "example": "git diff -R main"
+    },
+    {
+      "type": "option",
+      "key": "-M",
+      "aliases": ["--find-renames"],
+      "optional": true,
+      "popularity": 3,
+      "summary": "检测重命名对应",
+      "detail": "把删除加新增识别为一次重命名。",
+      "example": "git diff -M"
+    },
+    {
+      "type": "option",
+      "key": "--diff-filter",
+      "param": { "kind": "text", "name": "filter" },
+      "optional": true,
+      "popularity": 1,
+      "summary": "按类型过滤（如 M、D）",
+      "detail": "字母组合筛选改动类型，前缀 ! 取反。",
+      "example": "git diff --diff-filter M"
+    },
+    {
+      "type": "option",
+      "key": "--exit-code",
+      "optional": true,
+      "popularity": 1,
+      "summary": "有差异时退出码为 1",
+      "detail": "供脚本判断是否存在差异。",
+      "example": "git diff --exit-code"
+    },
+    {
+      "type": "positional",
+      "param": { "kind": "commit", "name": "base" },
+      "optional": true,
+      "popularity": 4,
+      "summary": "对比基准（提交或分支）",
+      "detail": "省略时对比工作区与暂存区；给一个则对比工作区与该提交。",
+      "example": "git diff main"
+    },
+    {
+      "type": "positional",
+      "param": { "kind": "commit", "name": "target" },
+      "optional": true,
+      "popularity": 3,
+      "summary": "对比目标（提交或分支）",
+      "detail": "与 <base> 成对使用比较两个提交。",
+      "example": "git diff main feature"
+    },
+    {
+      "type": "positional",
+      "param": { "kind": "pathspec", "name": "pathspec" },
+      "optional": true,
+      "repeatable": true,
+      "popularity": 4,
+      "summary": "限定对比的路径",
+      "detail": "只比较匹配的文件。",
+      "example": "git diff -- src/"
+    }
+  ],
+  "examples": [
+    { "cmd": "git diff", "note": "查看未暂存的改动" },
+    { "cmd": "git diff --staged", "note": "查看已暂存待提交的改动" },
+    { "cmd": "git diff main feature", "note": "对比两个分支的差异" }
+  ],
+  "notes": ["默认对比工作区与暂存区", "可用 base..target 区间语法"]
+}

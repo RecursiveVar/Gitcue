@@ -1,0 +1,321 @@
+{
+  "schemaVersion": "1.0",
+  "command": "remote",
+  "category": "porcelain",
+  "popularity": 3,
+  "summary": "管理远程仓库配置",
+  "grammar": [
+    {
+      "type": "option",
+      "key": "-v",
+      "aliases": ["--verbose"],
+      "optional": true,
+      "popularity": 4,
+      "summary": "列出远程及其抓取/推送地址",
+      "detail": "显示每个远程的 fetch 与 push URL；必须写在子命令之前。",
+      "example": "git remote -v"
+    },
+    {
+      "type": "literal",
+      "key": "add",
+      "optional": true,
+      "popularity": 4,
+      "summary": "添加新的远程仓库",
+      "detail": "在本地配置中登记一个远程及其地址，供 fetch/push/pull 使用。",
+      "example": "git remote add origin <url>",
+      "then": [
+        {
+          "type": "option",
+          "key": "-f",
+          "aliases": ["--fetch"],
+          "optional": true,
+          "popularity": 2,
+          "summary": "添加后立即抓取一次",
+          "detail": "登记远程后马上执行一次抓取，建立远程跟踪分支。",
+          "example": "git remote add -f origin <url>"
+        },
+        {
+          "type": "option",
+          "key": "-t",
+          "aliases": ["--track"],
+          "param": { "kind": "branch", "name": "branch" },
+          "optional": true,
+          "popularity": 1,
+          "summary": "只跟踪指定分支",
+          "detail": "按分支名设置默认抓取的引用规格。",
+          "example": "git remote add -t main origin <url>"
+        },
+        {
+          "type": "option",
+          "key": "--tags",
+          "optional": true,
+          "mutex": "add-tags",
+          "popularity": 1,
+          "summary": "抓取时带下远端标签",
+          "detail": "与 --no-tags 互斥，二选一决定标签抓取行为。",
+          "example": "git remote add --tags origin <url>"
+        },
+        {
+          "type": "option",
+          "key": "--no-tags",
+          "optional": true,
+          "mutex": "add-tags",
+          "popularity": 1,
+          "summary": "抓取时不带远端标签",
+          "detail": "与 --tags 互斥，禁用标签自动跟随。",
+          "example": "git remote add --no-tags origin <url>"
+        },
+        {
+          "type": "option",
+          "key": "--mirror",
+          "param": { "kind": "enum", "name": "which", "enum": ["fetch", "push"] },
+          "optional": true,
+          "popularity": 1,
+          "summary": "设为镜像仓库",
+          "detail": "fetch 镜像全部引用；push 镜像并删除远端多余引用。",
+          "example": "git remote add --mirror=fetch origin <url>"
+        },
+        {
+          "type": "positional",
+          "param": { "kind": "text", "name": "name" },
+          "optional": false,
+          "popularity": 4,
+          "summary": "远程仓库名",
+          "detail": "习惯用 origin 表示主远程，可自定义。",
+          "example": "git remote add upstream <url>"
+        },
+        {
+          "type": "positional",
+          "param": { "kind": "text", "name": "url" },
+          "optional": false,
+          "popularity": 3,
+          "summary": "仓库地址",
+          "detail": "支持 HTTPS、SSH 与本地路径。",
+          "example": "git remote add origin git@example.com:team/repo.git"
+        }
+      ]
+    },
+    {
+      "type": "literal",
+      "key": "remove",
+      "optional": true,
+      "popularity": 3,
+      "summary": "移除远程仓库",
+      "detail": "删除远程配置及其全部远程跟踪引用，不影响本地分支。",
+      "example": "git remote remove origin",
+      "then": [
+        {
+          "type": "positional",
+          "param": { "kind": "text", "name": "name" },
+          "optional": false,
+          "popularity": 4,
+          "summary": "远程仓库名",
+          "detail": "要移除的远程名称。",
+          "example": "git remote remove origin"
+        }
+      ]
+    },
+    {
+      "type": "literal",
+      "key": "rm",
+      "optional": true,
+      "popularity": 2,
+      "summary": "移除远程（remove 简写）",
+      "detail": "与 remove 完全等价的简写形式。",
+      "example": "git remote rm origin",
+      "then": [
+        {
+          "type": "positional",
+          "param": { "kind": "text", "name": "name" },
+          "optional": false,
+          "popularity": 4,
+          "summary": "远程仓库名",
+          "detail": "要移除的远程名称。",
+          "example": "git remote rm origin"
+        }
+      ]
+    },
+    {
+      "type": "literal",
+      "key": "rename",
+      "optional": true,
+      "popularity": 2,
+      "summary": "重命名远程仓库",
+      "detail": "更新远程配置并同步重命名全部远程跟踪分支与上游设置。",
+      "example": "git remote rename origin upstream",
+      "then": [
+        {
+          "type": "positional",
+          "param": { "kind": "text", "name": "old" },
+          "optional": false,
+          "popularity": 3,
+          "summary": "原远程名称",
+          "detail": "当前的远程仓库名。",
+          "example": "git remote rename origin upstream"
+        },
+        {
+          "type": "positional",
+          "param": { "kind": "text", "name": "new" },
+          "optional": false,
+          "popularity": 3,
+          "summary": "新远程名称",
+          "detail": "改名后的远程仓库名。",
+          "example": "git remote rename origin upstream"
+        }
+      ]
+    },
+    {
+      "type": "literal",
+      "key": "set-url",
+      "optional": true,
+      "popularity": 2,
+      "summary": "修改远程仓库地址",
+      "detail": "替换该远程的 URL；--add 追加多地址，--delete 删除匹配地址。",
+      "example": "git remote set-url origin <newurl>",
+      "then": [
+        {
+          "type": "option",
+          "key": "--add",
+          "optional": true,
+          "popularity": 1,
+          "summary": "追加一个 URL",
+          "detail": "不替换而是新增一条地址，可与多条推送地址并用。",
+          "example": "git remote set-url --add origin <url>"
+        },
+        {
+          "type": "option",
+          "key": "--delete",
+          "optional": true,
+          "popularity": 1,
+          "summary": "删除匹配的 URL",
+          "detail": "删除该远程下与给定地址匹配的条目。",
+          "example": "git remote set-url --delete origin <url>"
+        },
+        {
+          "type": "positional",
+          "param": { "kind": "text", "name": "name" },
+          "optional": false,
+          "popularity": 3,
+          "summary": "远程仓库名",
+          "detail": "要修改地址的远程。",
+          "example": "git remote set-url origin <newurl>"
+        },
+        {
+          "type": "positional",
+          "param": { "kind": "text", "name": "newurl" },
+          "optional": false,
+          "popularity": 2,
+          "summary": "新的仓库地址",
+          "detail": "替换后的 URL。",
+          "example": "git remote set-url origin git@example.com:team/repo.git"
+        },
+        {
+          "type": "positional",
+          "param": { "kind": "text", "name": "oldurl" },
+          "optional": true,
+          "popularity": 1,
+          "summary": "要替换的旧地址",
+          "detail": "给定后才做精确替换，适合多地址远程。",
+          "example": "git remote set-url origin <newurl> <oldurl>"
+        }
+      ]
+    },
+    {
+      "type": "literal",
+      "key": "show",
+      "optional": true,
+      "popularity": 3,
+      "summary": "查看远程仓库详情",
+      "detail": "列出远程分支与本地分支的跟踪关系，会访问远端查询。",
+      "example": "git remote show origin",
+      "then": [
+        {
+          "type": "positional",
+          "param": { "kind": "text", "name": "name" },
+          "optional": false,
+          "repeatable": true,
+          "popularity": 3,
+          "summary": "远程仓库名",
+          "detail": "可一次查看多个远程。",
+          "example": "git remote show origin"
+        }
+      ]
+    },
+    {
+      "type": "literal",
+      "key": "prune",
+      "optional": true,
+      "popularity": 2,
+      "summary": "清理远端已删除的跟踪引用",
+      "detail": "删除远端已不存在的本地远程跟踪分支，不动本地分支。",
+      "example": "git remote prune origin",
+      "then": [
+        {
+          "type": "option",
+          "key": "-n",
+          "aliases": ["--dry-run"],
+          "optional": true,
+          "popularity": 1,
+          "summary": "只演示将清理的引用",
+          "detail": "报告哪些跟踪引用将被删除但不实际删除。",
+          "example": "git remote prune -n origin"
+        },
+        {
+          "type": "positional",
+          "param": { "kind": "text", "name": "name" },
+          "optional": false,
+          "repeatable": true,
+          "popularity": 3,
+          "summary": "远程仓库名",
+          "detail": "要清理的远程，可多个。",
+          "example": "git remote prune origin"
+        }
+      ]
+    },
+    {
+      "type": "literal",
+      "key": "get-url",
+      "optional": true,
+      "popularity": 2,
+      "summary": "查询远程仓库地址",
+      "detail": "输出该远程的抓取或推送 URL，适合脚本取值。",
+      "example": "git remote get-url origin",
+      "then": [
+        {
+          "type": "option",
+          "key": "--push",
+          "optional": true,
+          "popularity": 2,
+          "summary": "查询推送地址",
+          "detail": "默认查抓取地址，此选项改查推送地址。",
+          "example": "git remote get-url --push origin"
+        },
+        {
+          "type": "option",
+          "key": "--all",
+          "optional": true,
+          "popularity": 1,
+          "summary": "列出全部 URL",
+          "detail": "多地址远程时逐行输出全部条目。",
+          "example": "git remote get-url --all origin"
+        },
+        {
+          "type": "positional",
+          "param": { "kind": "text", "name": "name" },
+          "optional": false,
+          "popularity": 3,
+          "summary": "远程仓库名",
+          "detail": "要查询的远程。",
+          "example": "git remote get-url origin"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    { "cmd": "git remote add origin <url>", "note": "添加 origin 远程" },
+    { "cmd": "git remote -v", "note": "查看全部远程与地址" },
+    { "cmd": "git remote set-url origin <url>", "note": "更换 origin 地址" },
+    { "cmd": "git remote remove origin", "note": "删除 origin 远程" }
+  ],
+  "notes": ["-v 必须写在子命令之前", "remove 不影响本地分支"]
+}

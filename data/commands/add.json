@@ -1,0 +1,147 @@
+{
+  "schemaVersion": "1.0",
+  "command": "add",
+  "category": "porcelain",
+  "popularity": 5,
+  "summary": "把工作区改动加入暂存区",
+  "grammar": [
+    {
+      "type": "option",
+      "key": "-A",
+      "aliases": ["--all"],
+      "optional": true,
+      "popularity": 5,
+      "summary": "暂存全部改动（含新增与删除）",
+      "detail": "暂存整个工作区的全部改动，不限于当前目录。等价于 --no-ignore-removal。",
+      "example": "git add -A"
+    },
+    {
+      "type": "option",
+      "key": "-u",
+      "aliases": ["--update"],
+      "optional": true,
+      "popularity": 4,
+      "summary": "只暂存已跟踪文件的改动",
+      "detail": "仅暂存已跟踪文件的修改与删除，不含未跟踪的新文件。",
+      "example": "git add -u"
+    },
+    {
+      "type": "option",
+      "key": "-p",
+      "aliases": ["--patch"],
+      "optional": true,
+      "popularity": 5,
+      "summary": "逐块挑选改动进入暂存区",
+      "detail": "以交互方式逐个差异块决定是否暂存。适合把一次改动拆成多个提交。",
+      "example": "git add -p src/"
+    },
+    {
+      "type": "option",
+      "key": "-n",
+      "aliases": ["--dry-run"],
+      "optional": true,
+      "popularity": 3,
+      "summary": "试运行，不实际暂存",
+      "detail": "只显示将要暂存的内容，不修改索引。",
+      "example": "git add -n ."
+    },
+    {
+      "type": "option",
+      "key": "-f",
+      "aliases": ["--force"],
+      "optional": true,
+      "popularity": 3,
+      "summary": "允许添加被忽略的文件",
+      "detail": "越过 .gitignore 规则强制添加文件。",
+      "example": "git add -f build.log"
+    },
+    {
+      "type": "option",
+      "key": "-i",
+      "aliases": ["--interactive"],
+      "optional": true,
+      "popularity": 3,
+      "summary": "交互式选择要暂存的文件",
+      "detail": "进入交互菜单，可按文件或按差异块暂存。",
+      "example": "git add -i"
+    },
+    {
+      "type": "option",
+      "key": "-e",
+      "aliases": ["--edit"],
+      "optional": true,
+      "popularity": 1,
+      "summary": "编辑差异后再暂存",
+      "detail": "打开编辑器修改差异内容，保存后按其暂存。",
+      "example": "git add -e"
+    },
+    {
+      "type": "option",
+      "key": "-v",
+      "aliases": ["--verbose"],
+      "optional": true,
+      "popularity": 2,
+      "summary": "显示将要暂存的文件",
+      "detail": "添加时逐行列出路径。"
+    },
+    {
+      "type": "option",
+      "key": "-N",
+      "aliases": ["--intent-to-add"],
+      "optional": true,
+      "popularity": 2,
+      "summary": "仅登记新文件，内容延后",
+      "detail": "以空内容把未跟踪文件记入索引，便于先用 git diff 查看其改动。",
+      "example": "git add -N new-file.c"
+    },
+    {
+      "type": "option",
+      "key": "--refresh",
+      "optional": true,
+      "popularity": 1,
+      "summary": "只刷新索引，不添加内容",
+      "detail": "更新索引里的文件统计信息，不暂存任何新内容。",
+      "example": "git add --refresh"
+    },
+    {
+      "type": "option",
+      "key": "--ignore-errors",
+      "optional": true,
+      "popularity": 1,
+      "summary": "跳过无法添加的文件继续",
+      "detail": "因错误无法添加的文件被跳过，其余照常处理。"
+    },
+    {
+      "type": "option",
+      "key": "--ignore-missing",
+      "optional": true,
+      "popularity": 1,
+      "summary": "试运行时忽略缺失文件",
+      "detail": "配合 --dry-run，检查缺失文件是否会被忽略规则跳过。"
+    },
+    {
+      "type": "option",
+      "key": "--renormalize",
+      "optional": true,
+      "popularity": 1,
+      "summary": "按现行规则重新规范化换行",
+      "detail": "对已跟踪文件重新应用换行等规范化，隐含 -u。",
+      "example": "git add --renormalize ."
+    },
+    {
+      "type": "positional",
+      "param": { "kind": "pathspec", "name": "pathspec" },
+      "repeatable": true,
+      "popularity": 5,
+      "summary": "要暂存的文件或目录",
+      "detail": "支持 glob 通配。省略时须配合 -u 或 -A 使用。",
+      "example": "git add src/ test/"
+    }
+  ],
+  "examples": [
+    { "cmd": "git add -A", "note": "暂存工作区全部改动" },
+    { "cmd": "git add -p src/", "note": "逐块挑选 src 下的改动" },
+    { "cmd": "git add .", "note": "暂存当前目录下的改动" }
+  ],
+  "notes": ["只改暂存区，不产生提交", ".gitignore 命中的文件默认被跳过"]
+}

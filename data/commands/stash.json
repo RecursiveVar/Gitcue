@@ -1,0 +1,217 @@
+{
+  "schemaVersion": "1.0",
+  "command": "stash",
+  "category": "porcelain",
+  "popularity": 4,
+  "summary": "保存与恢复工作区改动到暂存栈",
+  "grammar": [
+    {
+      "type": "option",
+      "key": "-p",
+      "aliases": ["--patch"],
+      "popularity": 2,
+      "summary": "交互式选择要暂存的代码块"
+    },
+    {
+      "type": "literal",
+      "key": "push",
+      "popularity": 5,
+      "summary": "暂存当前改动（默认动作）",
+      "then": [
+        {
+          "type": "option",
+          "key": "-m",
+          "aliases": ["--message"],
+          "param": { "kind": "text", "name": "message" },
+          "popularity": 4,
+          "summary": "为暂存附说明文字",
+          "example": "git stash push -m \"wip: 登录页\""
+        },
+        {
+          "type": "option",
+          "key": "-p",
+          "aliases": ["--patch"],
+          "popularity": 3,
+          "summary": "交互式选择要暂存的代码块"
+        },
+        {
+          "type": "option",
+          "key": "-S",
+          "aliases": ["--staged"],
+          "since": "2.35",
+          "popularity": 2,
+          "summary": "只暂存已在暂存区的内容"
+        },
+        {
+          "type": "option",
+          "key": "-k",
+          "aliases": ["--keep-index"],
+          "popularity": 2,
+          "summary": "暂存后保留暂存区中的改动"
+        },
+        {
+          "type": "option",
+          "key": "-q",
+          "aliases": ["--quiet"],
+          "popularity": 1,
+          "summary": "静默模式"
+        },
+        {
+          "type": "option",
+          "key": "-u",
+          "aliases": ["--include-untracked"],
+          "popularity": 3,
+          "summary": "连同未跟踪文件一起暂存"
+        },
+        {
+          "type": "positional",
+          "param": { "kind": "pathspec", "name": "pathspec" },
+          "optional": true,
+          "repeatable": true,
+          "popularity": 3,
+          "summary": "只暂存匹配的路径",
+          "example": "git stash push src/"
+        }
+      ]
+    },
+    {
+      "type": "literal",
+      "key": "pop",
+      "popularity": 4,
+      "summary": "恢复最近暂存并从栈中删除",
+      "then": [
+        {
+          "type": "option",
+          "key": "--index",
+          "popularity": 2,
+          "summary": "同时恢复暂存区状态"
+        },
+        {
+          "type": "option",
+          "key": "-q",
+          "aliases": ["--quiet"],
+          "popularity": 1,
+          "summary": "静默模式"
+        },
+        {
+          "type": "positional",
+          "param": { "kind": "stash", "name": "stash" },
+          "optional": true,
+          "popularity": 3,
+          "summary": "要恢复的暂存条目（默认最新）"
+        }
+      ]
+    },
+    {
+      "type": "literal",
+      "key": "apply",
+      "popularity": 3,
+      "summary": "恢复最近暂存但保留在栈中",
+      "then": [
+        {
+          "type": "option",
+          "key": "--index",
+          "popularity": 2,
+          "summary": "同时恢复暂存区状态"
+        },
+        {
+          "type": "option",
+          "key": "-q",
+          "aliases": ["--quiet"],
+          "popularity": 1,
+          "summary": "静默模式"
+        },
+        {
+          "type": "positional",
+          "param": { "kind": "stash", "name": "stash" },
+          "optional": true,
+          "popularity": 3,
+          "summary": "要恢复的暂存条目（默认最新）"
+        }
+      ]
+    },
+    {
+      "type": "literal",
+      "key": "drop",
+      "popularity": 3,
+      "summary": "删除指定的暂存条目",
+      "then": [
+        {
+          "type": "option",
+          "key": "-q",
+          "aliases": ["--quiet"],
+          "popularity": 1,
+          "summary": "静默模式"
+        },
+        {
+          "type": "positional",
+          "param": { "kind": "stash", "name": "stash" },
+          "optional": true,
+          "popularity": 3,
+          "summary": "要删除的暂存条目（默认最新）"
+        }
+      ]
+    },
+    {
+      "type": "literal",
+      "key": "list",
+      "popularity": 4,
+      "summary": "列出全部暂存条目"
+    },
+    {
+      "type": "literal",
+      "key": "show",
+      "popularity": 2,
+      "summary": "查看暂存条目的差异内容",
+      "then": [
+        {
+          "type": "option",
+          "key": "-u",
+          "aliases": ["--include-untracked"],
+          "popularity": 1,
+          "summary": "包含未跟踪文件的差异"
+        },
+        {
+          "type": "positional",
+          "param": { "kind": "stash", "name": "stash" },
+          "optional": true,
+          "popularity": 2,
+          "summary": "要查看的暂存条目（默认最新）"
+        }
+      ]
+    },
+    {
+      "type": "literal",
+      "key": "branch",
+      "popularity": 2,
+      "summary": "基于暂存创建并切换到新分支",
+      "then": [
+        {
+          "type": "positional",
+          "param": { "kind": "branch", "name": "branchname" },
+          "popularity": 4,
+          "summary": "新分支名称"
+        },
+        {
+          "type": "positional",
+          "param": { "kind": "stash", "name": "stash" },
+          "optional": true,
+          "popularity": 2,
+          "summary": "要恢复的暂存条目（默认最新）"
+        }
+      ]
+    },
+    {
+      "type": "literal",
+      "key": "clear",
+      "popularity": 2,
+      "summary": "清空全部暂存（不可恢复）"
+    }
+  ],
+  "examples": [
+    { "cmd": "git stash push -m \"wip\"", "note": "带说明暂存当前改动" },
+    { "cmd": "git stash pop", "note": "恢复最近一次暂存并删除该条目" },
+    { "cmd": "git stash list", "note": "查看暂存栈中的全部条目" }
+  ],
+  "notes": ["暂存不影响未跟踪文件，除非加 -u", "clear 清空后无法找回，慎用"]
+}

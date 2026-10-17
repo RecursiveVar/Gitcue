@@ -1,0 +1,85 @@
+{
+  "schemaVersion": "1.0",
+  "command": "show",
+  "category": "porcelain",
+  "popularity": 4,
+  "summary": "显示提交、标签等对象的详情与差异",
+  "grammar": [
+    {
+      "type": "option",
+      "key": "--stat",
+      "popularity": 3,
+      "summary": "显示差异统计而非逐行差异",
+      "example": "git show --stat HEAD"
+    },
+    {
+      "type": "option",
+      "key": "-s",
+      "aliases": ["--no-patch"],
+      "popularity": 2,
+      "summary": "不显示差异，只看提交说明"
+    },
+    {
+      "type": "option",
+      "key": "--oneline",
+      "popularity": 3,
+      "summary": "每个提交压缩为一行"
+    },
+    {
+      "type": "option",
+      "key": "--name-only",
+      "popularity": 2,
+      "summary": "只显示变更文件名"
+    },
+    {
+      "type": "option",
+      "key": "--name-status",
+      "popularity": 2,
+      "summary": "显示文件名与增删改类型"
+    },
+    {
+      "type": "option",
+      "key": "--format",
+      "param": { "kind": "text", "name": "format" },
+      "popularity": 2,
+      "summary": "按指定格式输出提交信息",
+      "example": "git show --format=%s HEAD"
+    },
+    {
+      "type": "option",
+      "key": "--abbrev-commit",
+      "popularity": 2,
+      "summary": "显示短 SHA 提交号"
+    },
+    {
+      "type": "option",
+      "key": "-q",
+      "aliases": ["--quiet"],
+      "popularity": 1,
+      "summary": "抑制差异输出"
+    },
+    {
+      "type": "positional",
+      "param": { "kind": "commit", "name": "object" },
+      "optional": true,
+      "popularity": 5,
+      "summary": "要显示的对象（默认 HEAD）",
+      "detail": "可以是提交、标签、树等对象，支持任意提交表达式。",
+      "example": "git show v1.0.0"
+    },
+    {
+      "type": "positional",
+      "param": { "kind": "pathspec", "name": "pathspec" },
+      "optional": true,
+      "repeatable": true,
+      "popularity": 2,
+      "summary": "限定显示的路径"
+    }
+  ],
+  "examples": [
+    { "cmd": "git show HEAD", "note": "查看最近提交的说明与逐行差异" },
+    { "cmd": "git show --stat HEAD~3", "note": "只看统计不看逐行差异" },
+    { "cmd": "git show v1.0.0", "note": "查看标签对象指向的提交" }
+  ],
+  "notes": ["可显示提交、标签、树等对象", "默认展示完整差异内容"]
+}

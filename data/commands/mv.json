@@ -1,0 +1,81 @@
+{
+  "schemaVersion": "1.0",
+  "command": "mv",
+  "category": "porcelain",
+  "popularity": 2,
+  "summary": "移动或重命名文件，同时更新索引",
+  "grammar": [
+    {
+      "type": "option",
+      "key": "-f",
+      "aliases": ["--force"],
+      "optional": true,
+      "popularity": 2,
+      "summary": "目标存在也强制移动",
+      "detail": "即使目标文件已存在也执行覆盖移动。",
+      "example": "git mv -f a.txt b.txt"
+    },
+    {
+      "type": "option",
+      "key": "-k",
+      "optional": true,
+      "popularity": 2,
+      "summary": "跳过无法移动的文件",
+      "detail": "个别文件移动出错时不中断整批操作，只跳过并继续。",
+      "example": "git mv -k src lib"
+    },
+    {
+      "type": "option",
+      "key": "-n",
+      "aliases": ["--dry-run"],
+      "optional": true,
+      "popularity": 3,
+      "summary": "只演示将要做的移动",
+      "detail": "显示会发生的移动但不实际改动文件与索引。",
+      "example": "git mv -n old.ts new.ts"
+    },
+    {
+      "type": "option",
+      "key": "-v",
+      "aliases": ["--verbose"],
+      "optional": true,
+      "popularity": 1,
+      "summary": "显示移动明细",
+      "detail": "逐行输出正在移动的源与目标路径。",
+      "example": "git mv -v src lib"
+    },
+    {
+      "type": "option",
+      "key": "--sparse",
+      "optional": true,
+      "popularity": 1,
+      "summary": "允许更新稀疏检出外的条目",
+      "detail": "配合稀疏检出使用，允许移动当前未检出的路径。",
+      "example": "git mv --sparse a b"
+    },
+    {
+      "type": "positional",
+      "param": { "kind": "pathspec", "name": "source" },
+      "optional": false,
+      "repeatable": true,
+      "popularity": 4,
+      "summary": "要移动的源文件或目录",
+      "detail": "可给多个源；匹配与重复消费时为必填的 destination 保留余数。",
+      "example": "git mv a.ts b.ts lib/"
+    },
+    {
+      "type": "positional",
+      "param": { "kind": "pathspec", "name": "destination" },
+      "optional": false,
+      "popularity": 4,
+      "summary": "目标位置（多源时须为目录）",
+      "detail": "单源时可为新文件名；多源时必须已是存在的目录。",
+      "example": "git mv README.md docs/README.md"
+    }
+  ],
+  "examples": [
+    { "cmd": "git mv old.ts new.ts", "note": "重命名文件并同步索引" },
+    { "cmd": "git mv a.ts b.ts lib/", "note": "批量移动到 lib 目录" }
+  ],
+  "notes": ["多源移动时目标必须是目录", "移动结果需 commit 后才入库"]
+}
