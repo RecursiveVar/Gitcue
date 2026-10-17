@@ -1,5 +1,5 @@
 {
-  "name": "gitcue",
+  "name": "@recursive-var/gitcue",
   "version": "0.1.0",
   "description": "GitCue —— Git 命令行智能提示工具：输入即提示、候选带说明、回车即执行",
   "type": "module",
@@ -41,6 +41,9 @@
   },
   "bin": {
     "gitcue": "bin/gitcue.mjs"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "scripts": {
     "test": "node --test \"test/*.test.mjs\"",

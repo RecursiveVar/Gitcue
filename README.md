@@ -30,9 +30,9 @@ GitCue 是一款运行在终端中的 **Git 命令实时提示与辅助输入工
 ### 安装与卸载
 
 ```bash
-npm install -g gitcue    # 安装为全局命令
-gitcue                   # 在任意终端输入 gitcue 即可启动
-npm uninstall -g gitcue  # 卸载全局命令（用户数据 ~/.gitcue/ 可按需手动删除）
+npm install -g @recursive-var/gitcue    # 安装为全局命令
+gitcue                                  # 在任意终端输入 gitcue 即可启动
+npm uninstall -g @recursive-var/gitcue  # 卸载全局命令（用户数据 ~/.gitcue/ 可按需手动删除）
 ```
 
 ### 交互模式（主模式）

@@ -30,9 +30,9 @@ Ships with a built-in knowledge base of 25 high-frequency commands (full list in
 ### Install & Uninstall
 
 ```bash
-npm install -g gitcue    # install as a global command
-gitcue                   # type gitcue in any terminal to start
-npm uninstall -g gitcue  # uninstall the global command (user data in ~/.gitcue/ can be deleted manually if desired)
+npm install -g @recursive-var/gitcue    # install as a global command
+gitcue                                  # type gitcue in any terminal to start
+npm uninstall -g @recursive-var/gitcue  # uninstall the global command (user data in ~/.gitcue/ can be deleted manually if desired)
 ```
 
 ### Interactive Mode (REPL)
