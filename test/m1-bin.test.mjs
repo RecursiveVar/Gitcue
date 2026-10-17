@@ -47,6 +47,9 @@ function runBin(argv, { home, cwd = ROOT } = {}) {
       GITCUE_HOME: home,
       GIT_TERMINAL_PROMPT: '0',
       GITCUE_LOG: '', // 默认关闭日志，保持 stdout 纯净
+      // 阻止 git 向上发现工作区根仓库：沙箱中的「非仓库」目录必须真正判定为非仓库
+      // （本工作区本身是 git 仓库时——克隆即如此——once-exec-cwd 等用例会被父仓库吞掉）
+      GIT_CEILING_DIRECTORIES: ROOT,
     },
   });
 }
